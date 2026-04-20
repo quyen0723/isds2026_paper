@@ -28,8 +28,10 @@
 
   "platforms_api": {
     "temperature": 0.7,
-    "gpt_4o_version": "TO_FIX_BEFORE_PHASE_2",
-    "claude_sonnet_version": "TO_FIX_BEFORE_PHASE_2"
+    "gpt_4o_version": "gpt-4o-2024-08-06",
+    "claude_sonnet_version": "claude-sonnet-4-5-20250929",
+    "version_pinning_rationale": "Pinned to match main.tex L201; prevents silent model drift across the 14-week experiment window.",
+    "fallback_on_deprecation": "If either snapshot is deprecated before Phase 2, migrate to the closest successor (e.g., gpt-4o-YYYY-MM or claude-sonnet-4-6-*) and report migration window + re-calibration data in the revised manuscript."
   },
 
   "rubric_AIOQ_R": {

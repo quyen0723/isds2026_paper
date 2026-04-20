@@ -154,7 +154,7 @@ This study employs a Sequential Explanatory Mixed Methods design~\cite{Creswell2
 
 \subsection{Participants and Sample Size}
 
-Participants are third- and fourth-year IT students at a technology-oriented university in Vietnam, with experience using at least one GenAI tool. The target sample size is $N = 30$--$40$, determined through a priori power analysis using G*Power 3.1 with the following parameters: significance level $\alpha = 0.05$; statistical power $1 - \beta = 0.80$; medium effect size $f = 0.25$ (equivalent to partial $\eta^2 \approx 0.06$, conservatively below $d = 0.69$ reported by Sawalha et al.~\cite{Sawalha2024}). For a Two-Way Repeated-Measures ANOVA design (Prompt Level $\times$ Platform; $3 \times 2 = 6$ conditions), the minimum required sample is $N = 28$. The target of 30--40 provides a buffer for attrition and data exclusion.
+Participants are third- and fourth-year IT students at a technology-oriented university in Vietnam, with experience using at least one GenAI tool. The target sample size is $N = 30$--$40$, determined through a priori power analysis using G*Power 3.1 with the following parameters: significance level $\alpha = 0.05$; statistical power $1 - \beta = 0.80$; medium effect size $f = 0.25$ (equivalent to partial $\eta^2 \approx 0.06$, conservatively below $d = 0.69$ reported by Sawalha et al.~\cite{Sawalha2024}). For a Two-Way Repeated-Measures ANOVA design (Prompt Level $\times$ Platform; $3 \times 2 = 6$ conditions), the minimum required sample is $N = 28$ under the standard G*Power assumption of a nonsphericity correction $\epsilon = 1$ and a within-subject correlation among repeated measures $\rho \geq 0.5$. A sensitivity analysis at $\rho = 0.3$ raises the required $N$ to approximately 45; we therefore treat $N = 28$ as a lower bound, target $N = 30$--$40$ to buffer attrition and data exclusion, and pre-specify that if the observed $\rho$ falls below 0.5 we will recruit a second wave before testing H3 (interaction effect).
 
 \subsection{Variables and Instruments}
 
@@ -198,7 +198,7 @@ Learning Value & Stimulation of higher-order thinking~\cite{Anderson2001}; expla
 \end{tabular}
 \end{table}
 
-\textbf{Moderator:} AI platform---ChatGPT (GPT-4o, API version \texttt{gpt-4o-2024-08-06}) vs. Claude Sonnet (API version \texttt{claude-sonnet-4-5-20250929}). Both versions remain fixed throughout the experiment to prevent silent model updates from confounding results. Temperature is set to 0.7 for both platforms to eliminate systematic variance from sampling behavior.
+\textbf{Moderator:} AI platform---ChatGPT (GPT-4o, API version \texttt{gpt-4o-2024-08-06}) vs. Claude Sonnet (API version \texttt{claude-sonnet-4-5-20250929}). Both versions remain fixed throughout the experiment to prevent silent model updates from confounding results. If either API snapshot is deprecated before Phase~2, the study will migrate to the closest successor snapshot and report the migration window together with a re-calibration check. Temperature is held at 0.7 for both platforms to match the default consumer-facing sampling regime while keeping the stochastic budget identical across conditions; temperature effects on output variance are therefore held constant, not eliminated.
 
 \textbf{Covariate:} Self-reported AI literacy score, measured via a pre-survey instrument adapted from Knoth et al.~\cite{Knoth2024}, used in ANCOVA robustness checks.
 
@@ -208,7 +208,7 @@ The data collection follows three phases over a 14-week semester:
 
 \textbf{Phase 1---Baseline Survey (Weeks 1--2):} A pre-survey (15--20 items) collects demographic data, AI usage frequency, and self-assessed AI literacy. Participants then complete one free-form learning task with their preferred AI tool, with all prompts and responses recorded to characterize natural prompting behaviors.
 
-\textbf{Phase 2---Controlled Experiment (Weeks 6--9):} Each participant completes 18 experimental sessions---3 prompt levels $\times$ 2 platforms $\times$ 3 task types (selected from four: algorithm explanation, debugging, complexity analysis, and problem-solving). Task order is counterbalanced using a Latin Square design ($4 \times 4$ matrix; each group of 4 participants receives a different task sequence). Prompts are pre-designed and administered directly. Each session starts a fresh conversation. The 18 sessions are distributed across three sittings (6 sessions each), separated by at least 48 hours. Two independent raters score all responses using the AIOQ-R rubric under blind conditions (raters are unaware of the prompt level).
+\textbf{Phase 2---Controlled Experiment (Weeks 6--9):} Each participant completes 18 experimental sessions---3 prompt levels $\times$ 2 platforms $\times$ 3 task types (selected from four candidate tasks: algorithm explanation, debugging, complexity analysis, and problem-solving). Task-type assignment and order are counterbalanced using a $4 \times 4$ Latin Square over the full task bank: participants are allocated to one of four groups, each group is assigned a distinct row of the square, and the first three cells of that row determine the three tasks completed in the remaining three sittings. This guarantees that each of the four tasks appears equally often in the first, second, and third positions across the sample. Prompt-level $\times$ platform order within each sitting is randomised independently per participant using a fixed seed recorded in \texttt{parameters.json}. Prompts are pre-designed and administered directly. Each session starts a fresh conversation. The 18 sessions are distributed across three sittings (6 sessions each), separated by at least 48 hours. Two independent raters score all responses using the AIOQ-R rubric under blind conditions (raters are unaware of the prompt level).
 
 \textbf{Phase 3---Qualitative Interviews (Weeks 9--10):} Semi-structured interviews with 8--10 participants selected via maximum variation sampling. Interview questions explore perceptions of prompt--output relationships, perceived learning value, and awareness of over-reliance risks. All interviews are audio-recorded and fully transcribed.
 
@@ -350,6 +350,16 @@ Second, it introduces the AIOQ-R rubric, a five-dimensional assessment instrumen
 Third, it proposes an integrated theoretical framework combining the CLEAR framework for prompt operationalization, Cognitive Load Theory for mechanistic explanation, and TAM2 for behavioral interpretation, providing a comprehensive lens through which prompt--response interactions can be understood.
 
 We anticipate that the empirical results will confirm that prompt quality significantly improves AI response quality, with platform-specific interaction effects across task types. These findings, once validated, will provide evidence-based foundations for integrating prompt engineering into IT curricula and developing practical prompt-writing guidelines for students navigating an AI-augmented educational landscape.
+
+\section*{Declarations}\label{sec:declarations}
+
+\noindent\textbf{Funding:} No external funding; API and computational costs borne by the authors' institutions.
+\textbf{Conflicts of Interest:} None declared; the authors have no commercial or advisory relationship with OpenAI or Anthropic.
+\textbf{Ethics Approval:} Protocol will be submitted to the IRB of FPT University (HCMC) prior to Phase~1; no human-subjects data is collected before approval, and the reference will be reported in the revised submission. All participants provide written informed consent; data is de-identified at capture.
+\textbf{Data and Code Availability:} Code skeleton (Python and R with synthetic-data exemplars) is released at the project repository (anonymised for review). The pre-registration record will be deposited on OSF and the DOI added to the camera-ready version. Phase~2 empirical data will be released under CC~BY~4.0 on acceptance of the follow-up paper.
+\textbf{Author Contributions (CRediT):} Nguyen--Conceptualization, Methodology, Writing~(Original Draft), Project Administration; Ho-Van--Methodology, Statistical Design, Writing~(Review~\& Editing), Supervision; Lam--Software, Validation, Data Curation, Writing~(Review~\& Editing).
+\textbf{Generative AI Usage:} GPT-4o and Claude Sonnet are the \emph{object of study} and are used solely as controlled experimental platforms; no generative AI was used to draft or substantively revise the manuscript beyond minor grammar suggestions, per the 2023 COPE/ICMJE/Springer AI-authorship guidance.
+\textbf{ORCID:} All three authors' ORCID iDs will be finalised in the camera-ready version.
 
 \bibliographystyle{splncs04}
 \bibliography{references}
