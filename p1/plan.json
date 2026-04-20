@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "paper_id": "p1",
+  "title": "The Impact of Prompt Quality on Generative AI Response Quality",
+  "style": "aphoristic + formal-spec",
+  "style_ref": ".fong/instructions/mindsets/guide-aphoristic-gherkin-formal-specifications-writing.md",
+
+  "contracts": {
+    "venues_primary": "ISDS 2026",
+    "venues_parallel": ["ICET 2026", "iCAST-SS 2026"],
+    "format": "Springer LNCS/CCIS one-column LaTeX",
+    "pages_bounds": {"min": 12, "max": 15},
+    "submission_deadline_primary": "2026-07-30",
+    "submission_deadline_iCAST_SS": "2026-07-08",
+    "notification": "2026-09-07",
+    "camera_ready": "2026-09-14",
+    "conference_dates": {
+      "iCAST_SS": "2026-10-09",
+      "ICET": "2026-10-15",
+      "ISDS": ["2026-11-14", "2026-11-15"]
+    }
+  },
+
+  "phases_WP6": [
+    {
+      "id": "WP0_Conjecture",
+      "status": "done",
+      "deliverable": "Research question + hypothesis set (RQ1-3, H1-3)",
+      "evidence": "Section 1 of isds2026_paper.pdf"
+    },
+    {
+      "id": "WP1_Investigate",
+      "status": "done",
+      "deliverable": "Literature review + 4 research gaps identified",
+      "evidence": "Section 2 of isds2026_paper.pdf + p1/deep-research/"
+    },
+    {
+      "id": "WP2_Skeleton",
+      "status": "done",
+      "deliverable": "Design paper with method + expected results",
+      "evidence": "p1/latex/isds2026_paper.pdf (14 pages)"
+    },
+    {
+      "id": "WP3_Fill",
+      "status": "in_progress",
+      "deliverable": "Polish method + refine Gap-to-Method mapping + tighten abstract",
+      "due": "2026-07-15",
+      "blockers": ["advisor review", "Claude version pinning", "peer-review non-peer URLs"]
+    },
+    {
+      "id": "WP4_Refine",
+      "status": "pending",
+      "deliverable": "Final polish + LaTeX build verification + reference cleanup",
+      "due": "2026-07-25"
+    },
+    {
+      "id": "WP5_Submit",
+      "status": "pending",
+      "deliverable": "Upload to EasyChair (ISDS) + EDAS (ICET, iCAST-SS)",
+      "due_iCAST_SS": "2026-07-08",
+      "due_ISDS_ICET": "2026-07-30"
+    }
+  ],
+
+  "preconditions_PRE": [
+    "P1: advisor(Khuong).approved = True before any upload",
+    "P2: lacheck + xelatex clean before submission",
+    "P3: 12 ≤ pages ≤ 15",
+    "P4: framing(iCAST_SS) ≠ framing(ISDS) to avoid duplicate",
+    "P5: non-peer URLs replaced by peer-reviewed equivalents in references.bib"
+  ],
+
+  "invariants_INV": [
+    "I1: ∀ number in paper: source-cited (primary literature, not AI memory)",
+    "I2: SWE-bench, GPQA, MATH-500 benchmarks updated to 2025 values or dated explicitly",
+    "I3: Claude API version pinned and reported in method section",
+    "I4: LaTeX build reproducible via xelatex → bibtex → xelatex × 2"
+  ],
+
+  "error_states_ERR": [
+    "E1: ISDS reject on 2026-09-07 ⇒ pivot to ICET + iCAST_SS camera-ready polish",
+    "E2: advisor flags methodological gap ⇒ iterate WP3 before submission",
+    "E3: LaTeX build fails ⇒ resolve before upload (never upload broken PDF)"
+  ],
+
+  "safety_rules_KILL": [
+    "abort if pages outside [12, 15]",
+    "abort if PDF uploaded without advisor sign-off",
+    "abort if identical abstract submitted to parallel venues"
+  ],
+
+  "analysis_stack": {
+    "R": {
+      "entry": "p1/R/main.R",
+      "packages": ["rstatix", "emmeans", "lme4", "tidyverse", "ggplot2"]
+    },
+    "python": {
+      "entry": "p1/python/main.py",
+      "packages": ["pandas", "numpy", "scipy", "matplotlib"]
+    },
+    "qualitative": {
+      "tool": "NVivo",
+      "protocol": "Braun & Clarke 6-phase thematic analysis",
+      "target_kappa": 0.67
+    }
+  },
+
+  "file_map": {
+    "manuscript": "p1/latex/isds2026_paper.pdf",
+    "literature_background": "p1/deep-research/genai-prompt-quality-research.pdf",
+    "submission_plan": "p1/docs/submission-plan-2026.pdf",
+    "summaries": [
+      "p1/docs/01-submission-plan.md",
+      "p1/docs/02-paper-summary.md",
+      "p1/docs/03-literature-context.md"
+    ]
+  }
+}

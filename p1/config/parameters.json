@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "paper_id": "p1",
+
+  "experiment": {
+    "N_target_min": 30,
+    "N_target_max": 40,
+    "N_min_power": 28,
+    "alpha": 0.05,
+    "alpha_bonferroni": 0.01,
+    "power_target": 0.80,
+    "effect_size_f": 0.25,
+    "effect_size_partial_eta_sq_target": 0.06
+  },
+
+  "design": {
+    "within_subjects": true,
+    "prompt_levels": ["basic", "intermediate", "advanced"],
+    "platforms": ["GPT-4o", "Claude-Sonnet"],
+    "task_types": ["algorithm_explanation", "debugging", "complexity_analysis", "problem_solving"],
+    "tasks_per_participant": 3,
+    "sessions_per_participant": 18,
+    "counterbalance": "Latin Square 4x4",
+    "session_gap_hours_min": 48,
+    "sittings_per_participant": 3,
+    "sessions_per_sitting": 6
+  },
+
+  "platforms_api": {
+    "temperature": 0.7,
+    "gpt_4o_version": "TO_FIX_BEFORE_PHASE_2",
+    "claude_sonnet_version": "TO_FIX_BEFORE_PHASE_2"
+  },
+
+  "rubric_AIOQ_R": {
+    "scale_min": 1,
+    "scale_max": 5,
+    "dimensions": ["accuracy", "completeness", "relevance", "clarity", "learning_value"],
+    "composite_min": 5,
+    "composite_max": 25,
+    "target_CVI": 0.80,
+    "target_inter_rater_kappa": 0.70
+  },
+
+  "analysis": {
+    "primary": "Two-Way Repeated-Measures ANOVA",
+    "robustness_1": "ANCOVA with AI_literacy covariate",
+    "robustness_2": "Linear Mixed-Effects Model",
+    "robustness_3": "Friedman non-parametric",
+    "sphericity_correction": "Greenhouse-Geisser (if Mauchly p < 0.05)",
+    "qualitative_kappa_target": 0.67
+  }
+}
