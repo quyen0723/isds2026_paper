@@ -1,0 +1,39 @@
+# AI/IDE tooling (boilerplate, project-private)
+.claude/
+.fong/
+.opencode/
+.vscode/
+opencode.json
+Quyen-isds2026_paper.code-workspace
+readme.md
+docs/
+
+# Backups
+*.b
+*.bak
+*.backup*
+
+# Temp
+.temp/
+_tmp/
+
+# Environment
+.env
+.env.local
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+venv/
+
+# IDE
+.idea/
+*.swp
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
