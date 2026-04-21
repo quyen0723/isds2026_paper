@@ -21,15 +21,22 @@ plot_pilot_bars <- function(result, output_dir) {
     if (nrow(row) == 1) { mat[i, j] <- row$mean; sds[i, j] <- row$sd }
   }
   bp <- graphics::barplot(mat, beside = TRUE, col = fills,
-                          ylim = c(0, 25),
+                          ylim = c(0, 27),
                           ylab = "Composite AIOQ-R (5-25)",
                           xlab = "Task type", las = 1)
   graphics::arrows(bp, mat - sds, bp, mat + sds,
                    angle = 90, code = 3, length = 0.04, col = cud$Black)
-  graphics::abline(h = c(5, 25), lty = 3, col = cud$Black)
+  # Data labels: mean value above each error bar.
+  for (i in seq_len(nrow(mat))) for (j in seq_len(ncol(mat))) {
+    if (!is.na(mat[i, j])) {
+      y_pos <- mat[i, j] + (if (is.na(sds[i, j])) 0 else sds[i, j]) + 0.45
+      graphics::text(bp[i, j], y_pos, sprintf("%.1f", mat[i, j]),
+                     cex = 0.78, col = cud$Black, font = 2)
+    }
+  }
   # Legend above the plot area (xpd=TRUE) so it never overlaps bars.
   graphics::legend(
-    x = mean(range(bp)), y = 28.5,
+    x = mean(range(bp)), y = 30,
     legend = levels_order, fill = fills,
     horiz = TRUE, bty = "n", cex = 0.95, xjust = 0.5
   )
