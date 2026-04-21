@@ -1,24 +1,25 @@
-# Pilot Prompts — CLEAR Levels × RCIFENI-O
+# Pilot Prompts — CLEAR Levels × RCIFENI-O + Gherkin + Formal Spec
 
-Nine templates (3 CLEAR-grounded levels × 3 pedagogical framings), each
-an RCIFENI-O prompt per
-`.fong/instructions/instructions-rcifeni-o-prompt-engineering.md`
-(and `…-gherkin-prompt-engineer.md` for the code-producing L3 in
-problem-solving).
+Nine templates (3 CLEAR-grounded levels × 3 pedagogical framings),
+assembled via the RCIFENI-O framework. Every L3 prompt — algorithm
+explanation, complexity analysis, and problem solving — embeds both a
+Gherkin Given/When/Then acceptance contract and a PRE/INV/POST/ERR
+formal specification.
 
 Placeholder `{signature}` is the HumanEval `prompt` field (function
-signature + docstring). Source of truth: `p1/python/src/prompts_*.py`.
+signature + docstring).
 
 **CLEAR → RCIFENI-O completeness mapping.**
 
-| CLEAR level | Criteria satisfied | RCIFENI-O sections included |
-|---|---|---|
-| L1 basic | 0–1 | Input only (no structure) |
-| L2 intermediate | 2–3 | Role + Instructions + Input |
-| L3 advanced | 4–5 | Role + Context + Instructions + Format + Notices + OKR + Input (+ Gherkin for code) |
+| CLEAR level | Criteria satisfied | RCIFENI-O sections included | Gherkin + formal spec |
+|---|---|---|---|
+| L1 basic | 0–1 | Input only (no structure) | no |
+| L2 intermediate | 2–3 | Role + Instructions + Input | no |
+| L3 advanced | 4–5 | Role + Context + Instructions + Format + Cautions + OKR + Input | yes (all three task types) |
 
 RCIFENI-O legend: **R**ole, **C**ontext, **I**nstructions, **F**ormat,
-**E**xample (optional), **N**otices, **I**nput, **O**KR.
+**E**xample (optional), **N**otices = Cautions (pitfalls, hard
+constraints, the ``what not to do''), **I**nput, **O**KR.
 
 ---
 
@@ -45,7 +46,7 @@ CS tutor. Undergraduate IT audience.
 {signature}
 ```
 
-### L3 advanced (full RCIFENI-O)
+### L3 advanced (RCIFENI-O + Gherkin + formal spec)
 ```
 # 1. Role:
 CS tutor. Undergraduate IT audience.
@@ -67,7 +68,7 @@ How: the explanation will be read once, without the code open.
 Prose. Four short paragraphs matching steps 1-4, then one italic
 self-check sentence.
 
-# 6. Notices/Cautions:
+# 6. Cautions:
 - Avoid code blocks; use plain English.
 - Keep vocabulary at undergraduate level.
 - No more than 220 words total.
@@ -75,10 +76,45 @@ self-check sentence.
 # 7. OKRs (O+KRs):
 O: Explanation lets a student solve a similar problem unaided.
 KR1: Each of steps 1-4 is answered in one paragraph.
-KR2: A final self-check sentence is present.
+KR2: A final italic self-check sentence is present.
 
 <<< INPUT:
 {signature}
+
+# 7.1 Behaviour (Gherkin):
+Feature: Produce a pedagogically-sound algorithm explanation.
+
+  Scenario: Cold-read comprehension
+    Given a learner who has read only the function signature and docstring
+    When the learner reads the explanation once, without the source code
+    Then the learner can restate the problem, the high-level approach,
+         and at least one key invariant in their own words
+
+  Scenario: Scope compliance
+    Given the produced explanation text
+    When reviewed against the 4 required steps
+    Then all 4 steps are addressed
+     And a single-sentence italic self-check closes the response
+
+# 7.2 Formal Specification:
+PRE:
+  - P1: Input is a Python function signature + docstring.
+  - P2: Reader level := undergraduate (IT major).
+
+INV:
+  - I1: Output language := plain English prose.
+  - I2: Code blocks ∉ output.
+  - I3: Word count ≤ 220.
+  - I4: Vocabulary ⊆ undergraduate CS lexicon.
+
+POST:
+  - Q1: 4 numbered paragraphs exist (one per instruction step 1-4).
+  - Q2: Exactly 1 italic self-check sentence closes the response.
+
+ERR:
+  - E1: Code block detected ⇒ rewrite as prose.
+  - E2: Self-check missing ⇒ append one sentence.
+  - E3: Word count > 220 ⇒ compress steps 1-4.
 ```
 
 ---
@@ -105,7 +141,7 @@ Computer-scientist. Complexity-analysis specialist.
 {signature}
 ```
 
-### L3 advanced (full RCIFENI-O)
+### L3 advanced (RCIFENI-O + Gherkin + formal spec)
 ```
 # 1. Role:
 Computer-scientist. Complexity-analysis specialist.
@@ -127,7 +163,7 @@ How: the analysis will be graded for reasoning, not just the answer.
 Five numbered paragraphs answering steps 1-5.
 Final line: T(n) = O(...)  S(n) = O(...).
 
-# 6. Notices/Cautions:
+# 6. Cautions:
 - Use n for the primary input size; introduce new symbols explicitly.
 - Do not guess; if a bound is unclear, state the tighter + looser options.
 
@@ -139,11 +175,46 @@ KR3: Self-check sentence present in step 5.
 
 <<< INPUT:
 {signature}
+
+# 7.1 Behaviour (Gherkin):
+Feature: Derive worst-case time and space complexity with reasoning.
+
+  Scenario: Reasoning transfer
+    Given a student who has seen recurrences but not the master theorem
+    When the student reads the analysis
+    Then the student can reproduce the derivation on a similar problem
+     And can point to the operation count that drives the bound
+
+  Scenario: Reported bounds are explicit
+    Given the produced analysis
+    When inspected for the final line
+    Then T(n) and S(n) are both stated as Big-O expressions
+     And each is accompanied by a justification earlier in the analysis
+
+# 7.2 Formal Specification:
+PRE:
+  - P1: Input is a Python function signature + docstring.
+  - P2: n denotes the primary input size.
+
+INV:
+  - I1: All new symbols (besides n) are introduced before first use.
+  - I2: If a bound is ambiguous, a tighter AND a looser bound are named.
+  - I3: Unsupported claims ∉ output.
+
+POST:
+  - Q1: 5 numbered paragraphs answer instruction steps 1-5.
+  - Q2: Final line has shape 'T(n) = O(...)  S(n) = O(...)'.
+  - Q3: Step 4 contains an explicit optimality verdict with reasoning.
+
+ERR:
+  - E1: Missing T(n) or S(n) on the final line ⇒ append.
+  - E2: Guessed bound without derivation ⇒ add symbolic counting step.
+  - E3: Self-check sentence missing in step 5 ⇒ add one sentence.
 ```
 
 ---
 
-## Task 3 — Problem Solving (RCIFENI-O + Gherkin for L3)
+## Task 3 — Problem Solving
 
 ### L1 basic
 ```
@@ -166,7 +237,7 @@ Senior Python engineer. Mentoring an IT undergraduate.
 {signature}
 ```
 
-### L3 advanced (full RCIFENI-O + Gherkin)
+### L3 advanced (RCIFENI-O + Gherkin + formal spec)
 ```
 # 1. Role:
 Senior Python engineer. Mentoring an IT undergraduate.
@@ -189,7 +260,7 @@ A single Python code block.
 First line: one-line docstring summary.
 Last lines: # Complexity: ... and # Edge cases: ...
 
-# 6. Notices/Cautions:
+# 6. Cautions:
 - Do not import third-party packages.
 - Do not rewrite the signature or the docstring.
 - Keep the body self-contained and deterministic.
@@ -217,6 +288,27 @@ Feature: Implement the function described in the signature.
     When the implementation runs
     Then it returns the boundary result the docstring implies
      And it does not silently coerce types
+
+# 7.2 Formal Specification:
+PRE:
+  - P1: Input is a Python function signature + docstring.
+  - P2: Target runtime := CPython 3.11+, standard library only.
+
+INV:
+  - I1: Third-party imports ∉ output.
+  - I2: Original signature and docstring preserved unchanged.
+  - I3: Behaviour is deterministic on the documented inputs.
+
+POST:
+  - Q1: A single Python code block is emitted.
+  - Q2: First content line is a one-line docstring summary.
+  - Q3: Last lines are '# Complexity: ...' and '# Edge cases: ...'.
+  - Q4: Both Gherkin scenarios pass on the documented inputs.
+
+ERR:
+  - E1: Third-party import detected ⇒ replace with stdlib equivalent.
+  - E2: Complexity or Edge-cases comment missing ⇒ append.
+  - E3: Signature rewritten ⇒ restore original.
 ```
 
 ---
@@ -253,3 +345,9 @@ and DO NOT include code or backslashes in it.
 
 Composite score = sum of five dimensions, range 5–25 (the paper's
 AIOQ-R composite scale).
+
+**OKR.**
+- O: single source-of-truth mirror of the nine code templates.
+- KR1: every L3 template includes both a Gherkin block and a formal spec. done.
+- KR2: no internal file paths appear in paper text. done.
+- KR3: document stays in sync with `prompts_*.py` (update both together).

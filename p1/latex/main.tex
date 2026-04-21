@@ -207,7 +207,7 @@ Participants are third- and fourth-year IT students at a technology-oriented uni
 \end{tabular}
 \end{table}
 
-To guarantee reproducibility and eliminate researcher-to-researcher wording drift, each of the three CLEAR levels is mechanically instantiated through the eight-field RCIFENI-O template: \textbf{R}ole, \textbf{C}ontext, \textbf{I}nstructions, \textbf{F}ormat, \textbf{E}xample (optional), \textbf{N}otices, \textbf{I}nput, and \textbf{O}KR. \emph{Level} is therefore a structural-completeness variable rather than a free-form verbal descriptor: the L1 prompt carries only the Input field, L2 adds Role and Instructions, and L3 activates the full mandatory set plus Notices and an explicit objective with key results. For the code-producing problem-solving framing, L3 additionally embeds a Gherkin Given/When/Then acceptance contract so that the accept criterion is behaviourally explicit. Figure~\ref{fig:rcifeni-o} summarises the CLEAR~$\to$~RCIFENI-O gating; the full verbatim templates accompany the paper as supplementary material.
+To guarantee reproducibility and eliminate researcher-to-researcher wording drift, each of the three CLEAR levels is mechanically instantiated through the eight-field RCIFENI-O template: \textbf{R}ole, \textbf{C}ontext, \textbf{I}nstructions, \textbf{F}ormat, \textbf{E}xample (optional), \textbf{N}otices (cautions, pitfalls, and hard constraints --- that is, the ``what not to do''), \textbf{I}nput, and \textbf{O}KR. \emph{Level} is therefore a structural-completeness variable rather than a free-form verbal descriptor: the L1 prompt carries only the Input field, L2 adds Role and Instructions, and L3 activates the full mandatory set plus the Cautions block and an explicit objective with key results. For every L3 prompt --- algorithm explanation, complexity analysis, and problem solving alike --- the template additionally embeds a Gherkin Given/When/Then acceptance contract and a PRE/INV/POST/ERR formal specification, so that both the \emph{behavioural} accept criterion and the \emph{structural} invariants are explicit rather than implied. Figure~\ref{fig:rcifeni-o} summarises the CLEAR~$\to$~RCIFENI-O gating; the full verbatim templates accompany the paper as supplementary material.
 
 \begin{figure}[!t]
 \centering
@@ -227,7 +227,7 @@ To guarantee reproducibility and eliminate researcher-to-researcher wording drif
 
 % Row labels
 \foreach \y/\lbl in {-1/Role, -2/Context, -3/Instructions, -4/Format,
-                     -5/Example, -6/Notices, -7/Input, -8/OKR}
+                     -5/Example, -6/Cautions,-7/Input, -8/OKR}
   \node[rowlbl] at (-1.2, \y*0.6) {\lbl};
 
 % L1 column (only Input active)
@@ -256,14 +256,14 @@ To guarantee reproducibility and eliminate researcher-to-researcher wording drif
 \node[act] at (4.6, -1.8){Instructions};
 \node[act] at (4.6, -2.4){Format};
 \node[off] at (4.6, -3.0){\footnotesize optional};
-\node[act] at (4.6, -3.6){Notices};
+\node[act] at (4.6, -3.6){Cautions};
 \node[act] at (4.6, -4.2){Input};
 \node[act] at (4.6, -4.8){OKR};
 
-% Gherkin annotation under L3 (problem-solving only)
-\node[actG, minimum width=2.1cm, minimum height=0.55cm] at (4.6, -5.6) {+Gherkin};
+% Gherkin + formal-spec annotation under L3 (all three task types)
+\node[actG, minimum width=2.4cm, minimum height=0.55cm] at (4.6, -5.6) {+Gherkin + PRE/POST/INV};
 \node[font=\scriptsize, anchor=north, align=center] at (4.6, -5.95)
-  {\itshape problem-solving only};
+  {\itshape all L3 task types};
 
 % Legend
 \node[act, minimum width=0.6cm] at (-1.2, -5.6) {};
@@ -396,7 +396,7 @@ A computational pilot verified the end-to-end pipeline before the IRB-gated Phas
 \label{fig:pilot-heatmap}
 \end{figure}
 
-Per-cell composite means (basic / intermediate / advanced) were \PilotAlgoBasic{} / \PilotAlgoInt{} / \PilotAlgoAdv{} for algorithm explanation, \PilotCxBasic{} / \PilotCxInt{} / \PilotCxAdv{} for complexity analysis, and \PilotPsBasic{} / \PilotPsInt{} / \PilotPsAdv{} for problem solving. Contrary to the literature-anchored monotonic expectation $L3>L2>L1$, the pilot shows no such ordering on these compact HumanEval tasks: automatic scores cluster near the top of the scale and the RCIFENI-O-grounded L3 prompts do not outperform the bare L1 input. Two caveats apply. First, LLM-as-judge raters are known to inflate scores and compress between-level variance relative to calibrated human raters~\cite{Liu2023}, so Kendall's $W$ here is a \emph{floor} estimate of the effect size a human panel is expected to detect, not a substitute for the pre-registered partial $\eta^2\geq0.06$ target. Second, HumanEval tasks are compact single-function problems whose solutions fit in a single short response regardless of prompt structure, which limits the room for prompt engineering to help; richer open-ended learning tasks in Phase~2 are expected to widen level differences.
+Per-cell composite means (basic / intermediate / advanced) were \PilotAlgoBasic{} / \PilotAlgoInt{} / \PilotAlgoAdv{} for algorithm explanation, \PilotCxBasic{} / \PilotCxInt{} / \PilotCxAdv{} for complexity analysis, and \PilotPsBasic{} / \PilotPsInt{} / \PilotPsAdv{} for problem solving. Contrary to the literature-anchored monotonic expectation $L3>L2>L1$, the pilot shows no such ordering on these compact HumanEval tasks: automatic scores cluster near the top of the scale and the RCIFENI-O-grounded L3 prompts, even with embedded Gherkin and PRE/INV/POST/ERR specifications, do not outperform the bare L1 input. Three caveats apply. \emph{First}, LLM-as-judge raters are known to inflate scores and compress between-level variance relative to calibrated human raters~\cite{Liu2023}, so Kendall's $W$ here is a \emph{floor} estimate of the effect size a human panel is expected to detect, not a substitute for the pre-registered partial $\eta^2\geq0.06$ target. \emph{Second}, HumanEval tasks are compact single-function problems whose solutions fit in a single short response regardless of prompt structure, which limits the room for prompt engineering to help; richer open-ended learning tasks in Phase~2 are expected to widen level differences. \emph{Third}, the highly structured L3 instructions (role + context + Cautions + OKR + Gherkin + formal spec) appear to over-specify compact tasks: on small HumanEval problems the structural overhead seems to distract rather than guide, an effect the longer, open-ended Phase~2 tasks are not expected to reproduce.
 
 \subsection{Phase~2 Hypotheses}\label{sec:phase2-hypo}
 

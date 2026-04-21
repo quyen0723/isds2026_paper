@@ -27,16 +27,19 @@ def l2(role: str, steps: str, sig: str) -> str:
 
 
 def l3(role: str, context: str, steps: str, fmt: str,
-       notices: str, okr: str, sig: str, gherkin: str = "") -> str:
+       notices: str, okr: str, sig: str,
+       gherkin: str = "", formal_spec: str = "") -> str:
     out = [
         "# 1. Role:", role, "",
         "# 2. Context (5W1H):", context, "",
         "# 3. Instructions:", steps, "",
         "# 4. Format:", fmt, "",
-        "# 6. Notices/Cautions:", notices, "",
+        "# 6. Cautions:", notices, "",
         "# 7. OKRs (O+KRs):", okr, "",
         "<<< INPUT:", sig.strip(),
     ]
     if gherkin:
         out += ["", "# 7.1 Behaviour (Gherkin):", gherkin.strip()]
+    if formal_spec:
+        out += ["", "# 7.2 Formal Specification:", formal_spec.strip()]
     return "\n".join(out) + "\n"

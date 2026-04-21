@@ -1,9 +1,8 @@
 """Problem-solving prompts at the three CLEAR levels.
 
-L3 embeds a Gherkin Given/When/Then block per
-``.fong/instructions/instructions-rcifeni-o-gherkin-prompt-engineer.md``
-— code/app-dev flows get behavioural acceptance contracts instead of
-prose-only instructions.
+L3 embeds a Gherkin Given/When/Then block AND a formal specification
+(PRE/INV/POST/ERR). Together they give the code-producing subtask an
+explicit behavioural contract and an explicit structural contract.
 """
 
 from __future__ import annotations
@@ -24,6 +23,25 @@ GHERKIN = (
     "    When the implementation runs\n"
     "    Then it returns the boundary result the docstring implies\n"
     "     And it does not silently coerce types"
+)
+
+FORMAL_SPEC = (
+    "PRE:\n"
+    "  - P1: Input is a Python function signature + docstring.\n"
+    "  - P2: Target runtime := CPython 3.11+, standard library only.\n\n"
+    "INV:\n"
+    "  - I1: Third-party imports ∉ output.\n"
+    "  - I2: Original signature and docstring preserved unchanged.\n"
+    "  - I3: Behaviour is deterministic on the documented inputs.\n\n"
+    "POST:\n"
+    "  - Q1: A single Python code block is emitted.\n"
+    "  - Q2: First content line is a one-line docstring summary.\n"
+    "  - Q3: Last lines are '# Complexity: ...' and '# Edge cases: ...'.\n"
+    "  - Q4: Both Gherkin scenarios pass on the documented inputs.\n\n"
+    "ERR:\n"
+    "  - E1: Third-party import detected ⇒ replace with stdlib equivalent.\n"
+    "  - E2: Complexity or Edge-cases comment missing ⇒ append.\n"
+    "  - E3: Signature rewritten ⇒ restore original."
 )
 
 
@@ -71,4 +89,5 @@ def build(level: str, sig: str) -> str:
         ),
         sig=sig,
         gherkin=GHERKIN,
+        formal_spec=FORMAL_SPEC,
     )

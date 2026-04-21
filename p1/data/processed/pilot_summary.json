@@ -1,15 +1,15 @@
 {
-  "started_utc": "2026-04-21T08:21:04.692767Z",
-  "ended_utc": "2026-04-21T08:33:38.902569Z",
+  "started_utc": "2026-04-21T08:57:13.143724Z",
+  "ended_utc": "2026-04-21T09:01:06.204701Z",
   "n_problems": 10,
   "n_task_types": 3,
   "n_levels": 3,
   "n_sessions": 90,
   "mean_composite_by_level": {
-    "advanced": 23.1,
+    "advanced": 23.833333333333332,
     "basic": 24.066666666666666,
     "intermediate": 23.4
   },
-  "cache_hit_rate_gen": 0.0,
-  "cache_hit_rate_judge": 0.0
+  "cache_hit_rate_gen": 0.6666666666666666,
+  "cache_hit_rate_judge": 0.6666666666666666
 }

@@ -1,10 +1,46 @@
-"""Complexity-analysis prompts at the three CLEAR levels."""
+"""Complexity-analysis prompts at the three CLEAR levels.
+
+L3 embeds both a Gherkin acceptance contract and a formal specification
+(PRE/INV/POST/ERR) for the derivation quality, not just the final Big-O.
+"""
 
 from __future__ import annotations
 
 from .prompts_rcifeni import l1, l2, l3
 
 ROLE = "Computer-scientist. Complexity-analysis specialist."
+
+GHERKIN = (
+    "Feature: Derive worst-case time and space complexity with reasoning.\n\n"
+    "  Scenario: Reasoning transfer\n"
+    "    Given a student who has seen recurrences but not the master theorem\n"
+    "    When the student reads the analysis\n"
+    "    Then the student can reproduce the derivation on a similar problem\n"
+    "     And can point to the operation count that drives the bound\n\n"
+    "  Scenario: Reported bounds are explicit\n"
+    "    Given the produced analysis\n"
+    "    When inspected for the final line\n"
+    "    Then T(n) and S(n) are both stated as Big-O expressions\n"
+    "     And each is accompanied by a justification earlier in the analysis"
+)
+
+FORMAL_SPEC = (
+    "PRE:\n"
+    "  - P1: Input is a Python function signature + docstring.\n"
+    "  - P2: n denotes the primary input size.\n\n"
+    "INV:\n"
+    "  - I1: All new symbols (besides n) are introduced before first use.\n"
+    "  - I2: If a bound is ambiguous, a tighter AND a looser bound are named.\n"
+    "  - I3: Unsupported claims ∉ output.\n\n"
+    "POST:\n"
+    "  - Q1: 5 numbered paragraphs answer instruction steps 1-5.\n"
+    "  - Q2: Final line has shape 'T(n) = O(...)  S(n) = O(...)'.\n"
+    "  - Q3: Step 4 contains an explicit optimality verdict with reasoning.\n\n"
+    "ERR:\n"
+    "  - E1: Missing T(n) or S(n) on the final line ⇒ append.\n"
+    "  - E2: Guessed bound without derivation ⇒ add symbolic counting step.\n"
+    "  - E3: Self-check sentence missing in step 5 ⇒ add one sentence."
+)
 
 
 def build(level: str, sig: str) -> str:
@@ -47,4 +83,6 @@ def build(level: str, sig: str) -> str:
             "KR3: Self-check sentence present in step 5."
         ),
         sig=sig,
+        gherkin=GHERKIN,
+        formal_spec=FORMAL_SPEC,
     )

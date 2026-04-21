@@ -8,24 +8,25 @@ All nine prompts (three CLEAR levels $\times$ three pedagogical
 framings) and the AIOQ-R judge prompt are assembled with an eight-field
 framework we refer to as RCIFENI-O: \textbf{R}ole, \textbf{C}ontext,
 \textbf{I}nstructions, \textbf{F}ormat, \textbf{E}xample (optional),
-\textbf{N}otices, \textbf{I}nput, \textbf{O}KR. The CLEAR
+\textbf{N}otices (cautions), \textbf{I}nput, \textbf{O}KR. The CLEAR
 level~\cite{Lo2023} therefore maps deterministically to
 \emph{structural completeness}, not merely a criterion count.
 
 \begin{table}[htbp]
   \centering
-  \caption{CLEAR level $\to$ RCIFENI-O sections instantiated. Problem-solving
-           at L3 additionally embeds a Gherkin Given/When/Then acceptance
-           contract for the code-producing subtask.}
+  \caption{CLEAR level $\to$ RCIFENI-O sections instantiated. Every L3
+           prompt (all three task framings) additionally embeds a Gherkin
+           Given/When/Then acceptance contract and a PRE/INV/POST/ERR
+           formal specification.}
   \label{tab:clear-rcifeni}
   \begin{tabular}{lll}
     \toprule
-    CLEAR level & RCIFENI-O sections & Gherkin block \\
+    CLEAR level & RCIFENI-O sections                          & Gherkin + formal spec \\
     \midrule
     L1 basic        & Input only                              & no  \\
     L2 intermediate & Role + Instructions + Input             & no  \\
     L3 advanced     & Role + Context + Instructions + Format  & yes \\
-                    & \quad + Notices + OKR + Input           & (L3 problem-solving only) \\
+                    & \quad + Cautions + OKR + Input          & (all L3 task types) \\
     \bottomrule
   \end{tabular}
 \end{table}
