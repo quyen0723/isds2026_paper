@@ -121,6 +121,7 @@ This study is positioned to address all four gaps simultaneously through a contr
 
 \begin{figure}[!t]
 \centering
+\resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
   node distance=0.6cm and 0.6cm,
   box/.style={rectangle, draw, rounded corners=3pt, minimum width=2.1cm, minimum height=0.85cm, align=center, font=\small, line width=0.5pt},
@@ -145,15 +146,14 @@ This study is positioned to address all four gaps simultaneously through a contr
 
 \node[theo, below=1.6cm of pq]   (clear) {CLEAR\\Lo~\cite{Lo2023}};
 \node[theo, below=1.6cm of mech] (clt)   {CLT\\Sweller~\cite{Sweller1988}};
-\node[theo, below=1.6cm of llm]  (tam)   {TAM2\\Venkatesh~\cite{Venkatesh2000}};
+\node[theo, below=1.6cm of out]  (tam)   {TAM2\\Venkatesh~\cite{Venkatesh2000}};
 
 \draw[tarr] (clear) -- (pq);
 \draw[tarr] (clt)   -- (mech);
 \draw[tarr] (tam)   -- (out);
-
-\node[font=\scriptsize, below=0.1cm of mech, align=center] {\{Ambiguity Reduction,\\Task Representation,\\Reasoning Scaffolding\}};
-\end{tikzpicture}
-\caption{Integrated theoretical framework. The causal chain (top row, solid) extends Knoth et al.~\cite{Knoth2024} by inserting three cognitive mechanisms between prompt quality and LLM output. Three supporting theories (bottom, dashed) ground the operationalisation.}
+\end{tikzpicture}%
+}
+\caption{Integrated theoretical framework. The causal chain (top row, solid) extends Knoth et al.~\cite{Knoth2024} by inserting three cognitive mechanisms---\{Ambiguity Reduction, Task Representation, Reasoning Scaffolding\}---between prompt quality and LLM output. Three supporting theories (bottom, dashed) ground the operationalisation.}
 \label{fig:framework}
 \end{figure}
 
