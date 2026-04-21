@@ -307,7 +307,7 @@ The data collection follows three phases over a 14-week semester:
 
 \textbf{Phase 1---Baseline Survey (Weeks 1--2):} A pre-survey (15--20 items) collects demographic data, AI usage frequency, and self-assessed AI literacy. Participants then complete one free-form learning task with their preferred AI tool, with all prompts and responses recorded to characterize natural prompting behaviors.
 
-\textbf{Phase 2---Controlled Experiment (Weeks 6--9):} Each participant completes 18 experimental sessions---3 prompt levels $\times$ 2 platforms $\times$ 3 task types (selected from four candidate tasks: algorithm explanation, debugging, complexity analysis, and problem-solving). Task-type assignment and order are counterbalanced using a $4 \times 4$ Latin Square over the full task bank: participants are allocated to one of four groups, each group is assigned a distinct row of the square, and the first three cells of that row determine the three tasks completed in the remaining three sittings. This guarantees that each of the four tasks appears equally often in the first, second, and third positions across the sample. Prompt-level $\times$ platform order within each sitting is randomised independently per participant using a fixed seed recorded in \texttt{parameters.json}. Prompts are pre-designed and administered directly. Each session starts a fresh conversation. The 18 sessions are distributed across three sittings (6 sessions each), separated by at least 48 hours. Two independent raters score all responses using the AIOQ-R rubric under blind conditions (raters are unaware of the prompt level).
+\textbf{Phase 2---Controlled Experiment (Weeks 6--9):} Each participant completes 18 experimental sessions---3 prompt levels $\times$ 2 platforms $\times$ 3 task types (algorithm explanation, complexity analysis, and problem-solving). Task-order is counterbalanced by a $3 \times 3$ Latin Square: participants are allocated to one of three groups, and each group is assigned a distinct row of the square, guaranteeing that each task type appears equally often in the first, second, and third position across the sample. Prompt-level $\times$ platform order within each sitting is randomised independently per participant using a fixed seed recorded in \texttt{parameters.json}. Prompts are pre-designed and administered directly. Each session starts a fresh conversation. The 18 sessions are distributed across three sittings (6 sessions each), separated by at least 48 hours. Two independent raters score all responses using the AIOQ-R rubric under blind conditions (raters are unaware of the prompt level).
 
 \textbf{Phase 3---Qualitative Interviews (Weeks 9--10):} Semi-structured interviews with 8--10 participants selected via maximum variation sampling. Interview questions explore perceptions of prompt--output relationships, perceived learning value, and awareness of over-reliance risks. All interviews are audio-recorded and fully transcribed.
 
@@ -328,12 +328,12 @@ The data collection follows three phases over a 14-week semester:
   opsym/.style={font=\large\bfseries, text=black!70}
 ]
 
-%% (a) Latin Square 4x4 -- CUDSkyBlue gradient left-to-right.
-\node[font=\small\bfseries] at (-3.88, 3.4) {(a) Latin Square $4\times4$};
-\foreach \i/\row in {1/{T1,T2,T3,T4}, 2/{T2,T3,T4,T1}, 3/{T3,T4,T1,T2}, 4/{T4,T1,T2,T3}} {
+%% (a) Latin Square 3x3 -- CUDSkyBlue gradient left-to-right.
+\node[font=\small\bfseries] at (-4.15, 3.4) {(a) Latin Square $3\times3$};
+\foreach \i/\row in {1/{T1,T2,T3}, 2/{T2,T3,T1}, 3/{T3,T1,T2}} {
   \node[sbox] at (-6.2, {2.6-\i*0.6}) {G\i};
   \foreach \j/\v [count=\jj from 0] in \row {
-    \node[cell, fill=CUDSkyBlue!\the\numexpr15+\jj*12\relax] at ({-5.3+\jj*0.95}, {2.6-\i*0.6}) {\v};
+    \node[cell, fill=CUDSkyBlue!\the\numexpr15+\jj*18\relax] at ({-5.3+\jj*0.95}, {2.6-\i*0.6}) {\v};
   }
 }
 
@@ -347,7 +347,7 @@ The data collection follows three phases over a 14-week semester:
   \node[gplatform] at (\x+2.6, 1.2) {\lbl};
 }
 \node[opsym] at (3.5, 0.5) {$\times$};
-\foreach \x/\lbl in {0/Algo, 1.6/Debug, 3.2/Cplx} {
+\foreach \x/\lbl in {0/Algo, 1.6/Cplx, 3.2/Prob} {
   \node[gtask] at (\x+1.9, -0.2) {\lbl};
 }
 \node[opsym] at (3.5, -0.8) {$=$};
@@ -360,7 +360,7 @@ The data collection follows three phases over a 14-week semester:
 \draw[arr] (ph1.east) -- (ph2.west);
 \draw[arr] (ph2.east) -- (ph3.west);
 \end{tikzpicture}
-\caption{Experimental design. (a) Latin Square counterbalancing assigns distinct task sequences across 4 participant groups (T1--T4 denote task types). (b) 3 prompt levels $\times$ 2 platforms $\times$ 3 task types = 18 sessions per participant, distributed across three sittings separated by $\geq$48~hours. Bottom: 14-week mixed-methods timeline.}
+\caption{Experimental design. (a) Latin Square counterbalancing assigns distinct task sequences across 3 participant groups (T1--T3 denote the three task types: algorithm explanation, complexity analysis, problem solving). (b) 3 prompt levels $\times$ 2 platforms $\times$ 3 task types = 18 sessions per participant, distributed across three sittings separated by $\geq$48~hours. Bottom: 14-week mixed-methods timeline.}
 \label{fig:design}
 \end{figure}
 
