@@ -207,6 +207,74 @@ Participants are third- and fourth-year IT students at a technology-oriented uni
 \end{tabular}
 \end{table}
 
+To guarantee reproducibility and eliminate researcher-to-researcher wording drift, each of the three CLEAR levels is mechanically instantiated through the eight-field RCIFENI-O template: \textbf{R}ole, \textbf{C}ontext, \textbf{I}nstructions, \textbf{F}ormat, \textbf{E}xample (optional), \textbf{N}otices, \textbf{I}nput, and \textbf{O}KR. \emph{Level} is therefore a structural-completeness variable rather than a free-form verbal descriptor: the L1 prompt carries only the Input field, L2 adds Role and Instructions, and L3 activates the full mandatory set plus Notices and an explicit objective with key results. For the code-producing problem-solving framing, L3 additionally embeds a Gherkin Given/When/Then acceptance contract so that the accept criterion is behaviourally explicit. Figure~\ref{fig:rcifeni-o} summarises the CLEAR~$\to$~RCIFENI-O gating; the full verbatim templates accompany the paper as supplementary material.
+
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}[
+  cell/.style     = {rectangle, draw, minimum width=2.1cm, minimum height=0.55cm, font=\scriptsize, inner sep=1pt},
+  act/.style      = {cell, fill=CUDSkyBlue!55, draw=CUDBlue},
+  actO/.style     = {cell, fill=CUDOrange!55, draw=CUDVermilion},
+  actG/.style     = {cell, fill=CUDBluishGreen!55, draw=CUDBluishGreen!80!black},
+  off/.style      = {cell, fill=gray!10, draw=gray!45, text=gray!55},
+  hdr/.style      = {font=\footnotesize\bfseries},
+  rowlbl/.style   = {font=\scriptsize, anchor=east}
+]
+% Column headers
+\node[hdr] at (0, 0)  {L1 basic};
+\node[hdr] at (2.3, 0){L2 intermediate};
+\node[hdr] at (4.6, 0){L3 advanced};
+
+% Row labels
+\foreach \y/\lbl in {-1/Role, -2/Context, -3/Instructions, -4/Format,
+                     -5/Example, -6/Notices, -7/Input, -8/OKR}
+  \node[rowlbl] at (-1.2, \y*0.6) {\lbl};
+
+% L1 column (only Input active)
+\node[off] at (0, -0.6)  {};
+\node[off] at (0, -1.2)  {};
+\node[off] at (0, -1.8)  {};
+\node[off] at (0, -2.4)  {};
+\node[off] at (0, -3.0)  {};
+\node[off] at (0, -3.6)  {};
+\node[act] at (0, -4.2)  {Input};
+\node[off] at (0, -4.8)  {};
+
+% L2 column (Role + Instructions + Input)
+\node[act] at (2.3, -0.6){Role};
+\node[off] at (2.3, -1.2){};
+\node[act] at (2.3, -1.8){Instructions};
+\node[off] at (2.3, -2.4){};
+\node[off] at (2.3, -3.0){};
+\node[off] at (2.3, -3.6){};
+\node[act] at (2.3, -4.2){Input};
+\node[off] at (2.3, -4.8){};
+
+% L3 column (all 6 mandatory + Notices + OKR; Example optional)
+\node[act] at (4.6, -0.6){Role};
+\node[act] at (4.6, -1.2){Context};
+\node[act] at (4.6, -1.8){Instructions};
+\node[act] at (4.6, -2.4){Format};
+\node[off] at (4.6, -3.0){\footnotesize optional};
+\node[act] at (4.6, -3.6){Notices};
+\node[act] at (4.6, -4.2){Input};
+\node[act] at (4.6, -4.8){OKR};
+
+% Gherkin annotation under L3 (problem-solving only)
+\node[actG, minimum width=2.1cm, minimum height=0.55cm] at (4.6, -5.6) {+Gherkin};
+\node[font=\scriptsize, anchor=north, align=center] at (4.6, -5.95)
+  {\itshape problem-solving only};
+
+% Legend
+\node[act, minimum width=0.6cm] at (-1.2, -5.6) {};
+\node[anchor=west, font=\scriptsize] at (-0.85, -5.6) {active field};
+\node[off, minimum width=0.6cm] at (-1.2, -6.1) {};
+\node[anchor=west, font=\scriptsize] at (-0.85, -6.1) {not included};
+\end{tikzpicture}
+\caption{CLEAR level $\to$ RCIFENI-O gating. Each column shows which of the eight RCIFENI-O fields are activated at a given prompt-quality level. L1 carries only the raw \emph{Input}; L2 adds \emph{Role} + \emph{Instructions}; L3 activates the full mandatory set plus \emph{Notices} and \emph{OKR} (Example remains optional). The L3 problem-solving prompt additionally embeds a Gherkin Given/When/Then acceptance contract. This deterministic gating converts CLEAR's criterion count into a reproducible structural specification.}
+\label{fig:rcifeni-o}
+\end{figure}
+
 \textbf{Dependent Variable (DV):} AI response quality, measured using the proposed AIOQ-R rubric across five dimensions on a 5-point Likert scale (composite score range: 5--25). Table~\ref{tab:aioq-r} presents the rubric with anchor examples.
 
 \begin{table}[h]
