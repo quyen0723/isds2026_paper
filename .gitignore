@@ -1,0 +1,63 @@
+# AI/IDE tooling (boilerplate, project-private)
+.claude/
+.fong/
+.opencode/
+.vscode/
+opencode.json
+Quyen-isds2026_paper.code-workspace
+readme.md
+docs/
+
+# Backups
+*.b
+*.bak
+*.backup*
+
+# Temp
+.temp/
+_tmp/
+
+# Environment
+.env
+.env.local
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+venv/
+
+# IDE
+.idea/
+*.swp
+
+# Logs
+*.log
+
+# LaTeX build artefacts
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.out
+*.toc
+*.synctex.gz
+*.nav
+*.snm
+*.vrb
+
+# Extracted text from PDFs (reproducible via pdftotext)
+*.txt.extracted
+p1/latex/*.txt
+
+# Output folders from analysis pipelines
+p1/R/output/
+p1/R/logs/
+p1/python/output/
+p1/python/logs/
+
+# OS
+.DS_Store
+Thumbs.db
+Rplots.pdf

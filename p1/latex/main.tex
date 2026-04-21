@@ -1,0 +1,420 @@
+% p1 main LaTeX source — Springer LNCS/CCIS one-column.
+% Reverse-engineered from p1/latex/isds2026_paper.pdf via pdftotext.
+% Ligatures (fi, ffi, fl) restored; section structure preserved.
+
+\documentclass[runningheads]{llncs}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric,fit,backgrounds,calc}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{hyperref}
+
+% Okabe-Ito Color Universal Design (CUD) palette — colourblind-safe.
+\definecolor{CUDOrange}{HTML}{E69F00}
+\definecolor{CUDSkyBlue}{HTML}{56B4E9}
+\definecolor{CUDBluishGreen}{HTML}{009E73}
+\definecolor{CUDBlue}{HTML}{0072B2}
+\definecolor{CUDVermilion}{HTML}{D55E00}
+\definecolor{CUDYellow}{HTML}{F0E442}
+
+\begin{document}
+
+\title{The Impact of Prompt Quality on Generative AI Response Quality: A Controlled Experiment with IT Students}
+
+\titlerunning{Prompt Quality Impact on GenAI Response}
+
+\author{Ngoc-My-Quyen Nguyen\inst{1} \and Khuong Ho-Van\inst{2} \and Thanh-Phong Lam\inst{3}}
+
+\authorrunning{N.M.Q. Nguyen et al.}
+
+\institute{FPT University, Ho Chi Minh City, Vietnam \\
+\email{quyennnm25ms23295@fpt.edu.vn}
+\and Ho Chi Minh City University of Technology (HCMUT), Vietnam \\
+\email{hvkhuong@hcmut.edu.vn}
+\and Banking University of Ho Chi Minh City, Vietnam \\
+\email{020201240024@st.buh.edu.vn}}
+
+\maketitle
+
+\begin{abstract}
+The rapid adoption of generative artificial intelligence (GenAI) tools such as ChatGPT and Claude among university students has raised a critical pedagogical question: does the quality of user-written prompts significantly influence the quality of AI-generated responses? Despite growing evidence that prompt engineering matters, most existing studies examine only a single AI platform, rely on uncontrolled observations, and are situated exclusively in Western educational contexts. This paper presents the design of a controlled within-subjects experiment to quantify the impact of prompt quality on GenAI response efficacy across two competing platforms---ChatGPT (GPT-4o) and Claude Sonnet---in the context of IT students performing academic learning tasks at a Vietnamese university. We operationalize prompt quality into three levels (basic, intermediate, advanced) guided by the CLEAR framework and measure response quality using a proposed five-dimensional AI Output Quality Rubric (AIOQ-R) covering accuracy, completeness, relevance, clarity, and learning value. The experimental design employs a Two-Way Repeated-Measures ANOVA with Latin Square counterbalancing ($N = 30$--$40$), complemented by semi-structured interviews analyzed through thematic analysis. We hypothesize that higher prompt quality produces significantly better AI responses (partial $\eta^2 \geq 0.06$) and that platform-specific differences emerge across task types. To the authors' knowledge, this study contributes one of the earliest cross-platform controlled experimental designs in a Southeast Asian educational setting, a validated assessment rubric, and practical prompt-writing guidelines for IT students.
+
+\keywords{prompt engineering \and generative AI \and response quality \and AIOQ-R rubric \and higher education \and CLEAR framework}
+\end{abstract}
+
+\section{Introduction}
+
+The proliferation of generative AI tools---including OpenAI's ChatGPT, Anthropic's Claude, and Google's Gemini---has fundamentally transformed how university students approach learning and research. A global survey by the Digital Education Council~\cite{DEC2024}, encompassing over 3{,}800 students across 16 countries, reported that GenAI adoption in academic contexts has exceeded 86\%, with computer science students leading at approximately 91\%. A UK-based longitudinal survey by HEPI~\cite{HEPI2025} ($n = 1{,}041$) further documented that daily ChatGPT usage among students rose from 53\% in 2023 to 66\% in 2024, with the primary use cases being conceptual explanation (68\%), writing assistance (57\%), and programming support (54\%).
+
+However, a fundamental challenge persists: the quality of AI-generated responses is heavily contingent upon the quality of user-supplied prompts. GenAI does not automatically become an effective learning tool merely through access; its pedagogical utility depends critically on the user's interaction competence. Knoth et al.~\cite{Knoth2024} demonstrated through regression analysis that prompt quality serves as a key mediator in the causal chain: AI literacy $\rightarrow$ prompt quality $\rightarrow$ LLM output quality. Sawalha et al.~\cite{Sawalha2024} analyzed 201 authentic student--ChatGPT conversations and found that 26\% of students simply copied assignment instructions verbatim without contextual elaboration, resulting in shallow responses. Two improved prompting strategies---reformulation and multi-question---yielded significantly higher accuracy with Cohen's $d$ values of $-0.94$ and $-0.69$, respectively.
+
+Converging evidence from recent studies reinforces these findings. Kumar et al.~\cite{Kumar2025} reported that engineering students trained in structured prompt techniques achieved up to 33\% higher scores on data analysis and programming tasks compared to unguided peers. Woo et al.~\cite{Woo2025} confirmed that systematic prompt engineering interventions significantly improved both self-efficacy and actual prompt quality among higher education students. These results collectively indicate that prompt literacy training constitutes a measurable educational intervention.
+
+Despite these advances, three critical research gaps remain. \emph{First}, the vast majority of existing studies examine only a single AI platform (predominantly ChatGPT), precluding cross-platform comparisons---even though students routinely use multiple tools and need evidence-based guidance on platform selection. \emph{Second}, the entire body of literature is concentrated in Western educational contexts; no controlled study has been conducted in Southeast Asia, despite comparable GenAI adoption rates among Vietnamese engineering students~\cite{Bui2025}. \emph{Third}, there is a conspicuous absence of validated, multi-dimensional assessment instruments---most studies employ ad hoc scales measuring only accuracy, neglecting educationally significant dimensions such as learning value.
+
+To address these gaps, the present study proposes a controlled within-subjects experiment examining the impact of prompt quality on AI response quality across two platforms (ChatGPT GPT-4o and Claude Sonnet) in the context of IT learning tasks at a Vietnamese university. The study is guided by three research questions:
+
+\begin{itemize}
+  \item \textbf{RQ1:} To what extent do three levels of prompt quality (basic, intermediate, advanced) affect AI response quality, as measured by the five dimensions of the AIOQ-R rubric?
+  \item \textbf{RQ2:} Are there statistically significant differences in response quality between ChatGPT (GPT-4o) and Claude Sonnet under identical prompt conditions?
+  \item \textbf{RQ3:} Is there a significant interaction effect between prompt quality level and AI platform on response quality across different IT task types?
+\end{itemize}
+
+Based on the theoretical framework and prior empirical evidence~\cite{Knoth2024,Sawalha2024,Kumar2025}, we propose three hypotheses:
+
+\begin{itemize}
+  \item \textbf{H1 (Main effect---Prompt Quality):} Prompt quality level has a statistically significant effect on composite AIOQ-R scores, with the expected ordering: advanced $>$ intermediate $>$ basic (anticipated partial $\eta^2 \geq 0.06$).
+  \item \textbf{H2 (Main effect---Platform):} There is a statistically significant difference in composite AIOQ-R scores between GPT-4o and Claude Sonnet under identical prompt conditions. This hypothesis is exploratory.
+  \item \textbf{H3 (Interaction effect):} There is a significant interaction between prompt quality level and AI platform, with Claude Sonnet expected to show greater sensitivity to prompt improvement on reasoning tasks and GPT-4o on coding tasks.
+\end{itemize}
+
+This paper makes three contributions: (1) to the authors' knowledge, among the earliest controlled cross-platform experimental designs for studying prompt--response dynamics in a Southeast Asian educational setting; (2) a proposed five-dimensional AIOQ-R rubric with a planned validation protocol (CVI $\geq 0.80$, $\kappa \geq 0.70$); and (3) an integrated theoretical framework combining the CLEAR framework, Cognitive Load Theory~\cite{Sweller1988}, and TAM2~\cite{Davis1989,Venkatesh2000} to explain the prompt--response mechanism.
+
+The remainder of this paper is organized as follows. Section~\ref{sec:related} reviews related work. Section~\ref{sec:method} details the proposed methodology. Section~\ref{sec:results} presents expected results, followed by a discussion in Section~\ref{sec:discussion}. Section~\ref{sec:conclusion} concludes the paper.
+
+\section{Related Work}\label{sec:related}
+
+\subsection{Generative AI and LLMs in Education}
+
+Generative AI (GenAI) refers to a class of artificial intelligence systems capable of producing novel content---text, code, images---based on patterns learned from large-scale training data. The underlying technology, large language models (LLMs), employs the Transformer architecture trained on massive text corpora to perform diverse tasks including question answering, text summarization, and code generation~\cite{Brown2020,Bommasani2021}. A defining characteristic of LLMs is their sensitivity to input prompts, which serve as the primary mechanism for directing the model's generation process.
+
+In higher education, GenAI tools have been rapidly integrated into student workflows. Sun et al.~\cite{Sun2024} analyzed screen recordings of 30 CS students interacting with ChatGPT and identified three strategy groups: passive copy-paste users, simple sequential interactors, and multi-turn critical engagers---with the last group achieving the highest learning outcomes. Knoth et al.~\cite{Knoth2024} provided quantitative evidence that students with higher AI literacy write better prompts and receive higher-quality AI responses. However, Kasneci et al.~\cite{Kasneci2023} warned that over-reliance on GenAI may erode critical thinking, independent problem-solving, and active knowledge construction---a counterpoint that optimistic studies frequently overlook.
+
+\subsection{Prompt Engineering and the CLEAR Framework}
+
+Prompt engineering is defined as the systematic design and optimization of input instructions to maximize the quality of AI-generated outputs~\cite{Sahoo2024}. Established techniques include Zero-Shot, Few-Shot, Chain-of-Thought (CoT), Role Prompting, and Iterative Prompting. Zlatkin-Troitschanskaia et al.~\cite{Zlatkin2024} proposed a theoretical framework positioning prompt engineering as a 21st-century skill comprising four components: foundational prompt knowledge, prompt read-write ability, prompt methodology, and online critical thinking. Lee and Palmer~\cite{Lee2025} conducted a systematic review of 42 studies and concluded that this skill remains largely absent from formal university curricula despite increasing demand.
+
+The CLEAR framework, proposed by Lo~\cite{Lo2023}, defines five criteria for high-quality prompts: Concise, Logical, Explicit, Adaptive, and Reflective. With over 200 citations, CLEAR provides a principled basis for operationalizing prompt quality into ordinal levels. In this study, we adopt CLEAR to define three prompt quality tiers: Level~1 (basic, satisfying 0--1 CLEAR criteria), Level~2 (intermediate, 2--3 criteria), and Level~3 (advanced, 4--5 criteria).
+
+\subsection{Prompt Sensitivity and Output Quality}
+
+LLMs exhibit high sensitivity to prompt wording, structure, and formatting. Minor variations in phrasing can produce substantially different outputs~\cite{Zhao2021}, and techniques such as CoT prompting have demonstrated that explicit reasoning instructions markedly improve problem-solving performance~\cite{Wei2022}. Brown et al.~\cite{Brown2020} showed that LLMs leverage in-context learning, where the prompt functions as a task specification that shapes the entire generation trajectory.
+
+Knoth et al.~\cite{Knoth2024} provided the first empirical evidence for a causal chain: AI Literacy $\rightarrow$ Prompt Quality $\rightarrow$ LLM Output Quality, coding prompts along six components (task verb, focus, context, constraints, output specification, reasoning instruction). Sawalha et al.~\cite{Sawalha2024} confirmed that students who copied assignment text verbatim received significantly lower-quality responses compared to those using reformulation ($d = -0.94$) or multi-question strategies ($d = -0.69$). Kumar et al.~\cite{Kumar2025} demonstrated a 33\% performance advantage for students trained in structured prompting. Choi et al.~\cite{Choi2025} analyzed 1{,}259 student prompts across 12 STEM courses and identified eight quality factors, with context and output constraints carrying the highest predictive weight.
+
+\subsection{Evaluation Frameworks for AI-Generated Content}
+
+Several frameworks have been developed to assess AI output quality. Huang et al.~\cite{Huang2025} developed the AIGDER index using Delphi and Analytic Hierarchy Process (AHP) methods, identifying four priority dimensions: authenticity, accuracy, relevance, and depth. Goodman et al.~\cite{Goodman2023} proposed a 6-point accuracy scale and a 3-point completeness scale that have been widely adapted. Liu et al.~\cite{Liu2023} introduced G-Eval, which uses GPT-4 itself as an evaluator across dimensions of relevance, coherence, consistency, and fluency.
+
+However, most existing instruments measure only surface-level accuracy and lack systematic inter-rater reliability testing. Critically, no validated rubric incorporates \emph{learning value}---the degree to which AI responses stimulate higher-order thinking (Bloom's taxonomy)---as an assessment dimension. The AIOQ-R rubric proposed in this study addresses this gap with a five-dimensional evaluation covering accuracy, completeness, relevance, clarity, and learning value, accompanied by anchor examples and a planned validation protocol.
+
+\subsection{Research Gaps}
+
+From the literature review, four gaps emerge:
+
+\begin{itemize}
+  \item \textbf{Gap 1:} No study has compared the impact of prompt quality across multiple AI platforms (e.g., ChatGPT vs. Claude) under controlled experimental conditions.
+  \item \textbf{Gap 2:} Research is overwhelmingly concentrated in Western contexts; few peer-reviewed controlled studies have been reported in Southeast Asia despite comparable adoption rates~\cite{Bui2025}.
+  \item \textbf{Gap 3:} The relationship between prompt quality and \emph{learning value}---beyond surface-level response quality---has not been systematically measured, including the potential negative effects of over-reliance on higher-order thinking.
+  \item \textbf{Gap 4:} There is no validated, multi-dimensional rubric with established reliability for assessing AI response quality in the context of IT learning tasks.
+\end{itemize}
+
+This study is positioned to address all four gaps simultaneously through a controlled cross-platform experiment with a validated assessment instrument.
+
+\begin{figure}[!t]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  node distance=0.6cm and 0.6cm,
+  box/.style={rectangle, draw, rounded corners=3pt, minimum width=2.1cm, minimum height=0.85cm, align=center, font=\small, line width=0.5pt},
+  boxIn/.style={box, fill=CUDSkyBlue!20, draw=CUDSkyBlue!80!black},
+  boxProc/.style={box, fill=CUDBlue!15, draw=CUDBlue!80!black},
+  boxEmp/.style={box, fill=CUDOrange!30, draw=CUDOrange!80!black},
+  boxOut/.style={box, fill=CUDBluishGreen!25, draw=CUDBluishGreen!80!black},
+  theo/.style={rectangle, draw=gray!60!black, dashed, rounded corners=3pt, minimum width=2.0cm, minimum height=0.7cm, align=center, font=\footnotesize, fill=gray!10},
+  arr/.style={->, thick, >=Stealth, draw=CUDVermilion!85!black, line width=0.55pt},
+  tarr/.style={->, dashed, >=Stealth, draw=gray!60!black}
+]
+\node[boxIn]                     (lit)  {AI\\Literacy};
+\node[boxProc, right=of lit]     (pq)   {Prompt\\Quality (CLEAR)};
+\node[boxEmp,  right=of pq]      (mech) {Cognitive\\Mechanisms};
+\node[boxProc, right=of mech]    (llm)  {LLM\\(GPT-4o / Claude)};
+\node[boxOut,  right=of llm]     (out)  {AIOQ-R\\5 dims};
+
+\draw[arr] (lit) -- (pq);
+\draw[arr] (pq) -- (mech);
+\draw[arr] (mech) -- (llm);
+\draw[arr] (llm) -- (out);
+
+\node[theo, below=1.6cm of pq]   (clear) {CLEAR\\Lo~\cite{Lo2023}};
+\node[theo, below=1.6cm of mech] (clt)   {CLT\\Sweller~\cite{Sweller1988}};
+\node[theo, below=1.6cm of out]  (tam)   {TAM2\\Venkatesh~\cite{Venkatesh2000}};
+
+\draw[tarr] (clear) -- (pq);
+\draw[tarr] (clt)   -- (mech);
+\draw[tarr] (tam)   -- (out);
+\end{tikzpicture}%
+}
+\caption{Integrated theoretical framework. The causal chain (top row, solid) extends Knoth et al.~\cite{Knoth2024} by inserting three cognitive mechanisms---\{Ambiguity Reduction, Task Representation, Reasoning Scaffolding\}---between prompt quality and LLM output. Three supporting theories (bottom, dashed) ground the operationalisation.}
+\label{fig:framework}
+\end{figure}
+
+\section{Methodology}\label{sec:method}
+
+Figure~\ref{fig:framework} situates the study within an integrated theoretical model: AI literacy predicts prompt quality operationalised by CLEAR, which activates three cognitive mechanisms that shape LLM output along the AIOQ-R dimensions.
+
+\subsection{Research Design}
+
+This study employs a Sequential Explanatory Mixed Methods design~\cite{Creswell2018}. Phase~1 (quantitative) consists of a controlled within-subjects experiment, followed by Phase~2 (qualitative) comprising semi-structured interviews to explain and enrich the quantitative findings. This design is appropriate because: (1) the experiment provides objective measurements of prompt effects; (2) interviews capture student perceptions and experiences that quantitative measures cannot fully reflect; and (3) the sequential approach has been successfully validated in analogous studies~\cite{Woo2025,Kumar2025}.
+
+\subsection{Participants and Sample Size}
+
+Participants are third- and fourth-year IT students at a technology-oriented university in Vietnam, with experience using at least one GenAI tool. The target sample size is $N = 30$--$40$, determined through a priori power analysis using G*Power 3.1 with the following parameters: significance level $\alpha = 0.05$; statistical power $1 - \beta = 0.80$; medium effect size $f = 0.25$ (equivalent to partial $\eta^2 \approx 0.06$, conservatively below $d = 0.69$ reported by Sawalha et al.~\cite{Sawalha2024}). For a Two-Way Repeated-Measures ANOVA design (Prompt Level $\times$ Platform; $3 \times 2 = 6$ conditions), the minimum required sample is $N = 28$ under the standard G*Power assumption of a nonsphericity correction $\epsilon = 1$ and a within-subject correlation among repeated measures $\rho \geq 0.5$. A sensitivity analysis at $\rho = 0.3$ raises the required $N$ to approximately 45; we therefore treat $N = 28$ as a lower bound, target $N = 30$--$40$ to buffer attrition and data exclusion, and pre-specify that if the observed $\rho$ falls below 0.5 we will recruit a second wave before testing H3 (interaction effect).
+
+\subsection{Variables and Instruments}
+
+\textbf{Independent Variable (IV):} Prompt quality, operationalized at three levels based on the CLEAR framework~\cite{Lo2023} and the six-component coding scheme of Knoth et al.~\cite{Knoth2024}. Table~\ref{tab:prompt-levels} presents the three levels with illustrative examples.
+
+\begin{table}[h]
+\caption{Three prompt quality levels used in the experiment.}\label{tab:prompt-levels}
+\centering
+\begin{tabular}{@{}clp{3.5cm}p{5cm}@{}}
+\toprule
+\textbf{Level} & \textbf{Label} & \textbf{Key Characteristics} & \textbf{Example (task: explain binary search)} \\
+\midrule
+1 & Basic & Short, vague; no context or output constraints; 0--2/6 components & ``Explain binary search.'' \\
+\addlinespace
+2 & Intermediate & Context specified, target audience defined, output format requested; 3--4/6 components & ``Explain binary search for a 3rd-year CS student. Include: time complexity, a worked example with a specific array, and 3 common implementation mistakes.'' \\
+\addlinespace
+3 & Advanced & Role assignment, detailed context, output constraints, CoT reasoning; 5--6/6 components & ``You are a Data Structures tutor. A 3rd-year student is preparing for exams. Explain binary search covering: (1) definition and preconditions, (2) step-by-step trace on [2,5,8,12,16,23,38,56,72,91], (3) time and space complexity, (4) Python code (recursive vs. iterative), (5) 3 common bugs. Use headings and code blocks.'' \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Dependent Variable (DV):} AI response quality, measured using the proposed AIOQ-R rubric across five dimensions on a 5-point Likert scale (composite score range: 5--25). Table~\ref{tab:aioq-r} presents the rubric with anchor examples.
+
+\begin{table}[h]
+\caption{AIOQ-R Rubric---Five-dimensional AI response quality assessment.}\label{tab:aioq-r}
+\centering
+\begin{tabular}{@{}lp{3cm}cp{5cm}@{}}
+\toprule
+\textbf{Dimension} & \textbf{Assessment Focus} & \textbf{Scale} & \textbf{Anchor Examples (L1 / L3 / L5)} \\
+\midrule
+Accuracy & Technical correctness of information, code, and algorithmic analysis & 1--5 & L1: Critical technical errors causing misconceptions. L3: Correct main ideas with 1--2 minor errors. L5: Fully accurate, independently verifiable. \\
+\addlinespace
+Completeness & Coverage of all task requirements & 1--5 & L1: Missing $>$50\% of core content. L3: Covers 60--80\% of requirements. L5: 100\% coverage with relevant supplementary information. \\
+\addlinespace
+Relevance & Alignment between response content and actual learning needs & 1--5 & L1: Off-topic or mismatched context. L3: Topically relevant but wrong difficulty level. L5: Precisely targeted to specified context and level. \\
+\addlinespace
+Clarity & Logical organization, readability, appropriate examples, and code formatting & 1--5 & L1: Disorganized, no structure, uncommented code. L3: Basic structure but weak transitions. L5: Excellent structure with headings, code blocks, and step-by-step examples. \\
+\addlinespace
+Learning Value & Stimulation of higher-order thinking~\cite{Anderson2001}; explanations of \emph{why}, comparisons, and reflective questions & 1--5 & L1: Provides answers without explanation. L3: Basic explanations without connecting to broader concepts. L5: Deep explanations, alternative comparisons, open-ended questions promoting analysis. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Moderator:} AI platform---ChatGPT (GPT-4o, API version \texttt{gpt-4o-2024-08-06}) vs. Claude Sonnet (API version \texttt{claude-sonnet-4-5-20250929}). Both versions remain fixed throughout the experiment to prevent silent model updates from confounding results. If either API snapshot is deprecated before Phase~2, the study will migrate to the closest successor snapshot and report the migration window together with a re-calibration check. Temperature is held at 0.7 for both platforms to match the default consumer-facing sampling regime while keeping the stochastic budget identical across conditions; temperature effects on output variance are therefore held constant, not eliminated.
+
+\textbf{Covariate:} Self-reported AI literacy score, measured via a pre-survey instrument adapted from Knoth et al.~\cite{Knoth2024}, used in ANCOVA robustness checks.
+
+\subsection{Experimental Procedure}
+
+The data collection follows three phases over a 14-week semester:
+
+\textbf{Phase 1---Baseline Survey (Weeks 1--2):} A pre-survey (15--20 items) collects demographic data, AI usage frequency, and self-assessed AI literacy. Participants then complete one free-form learning task with their preferred AI tool, with all prompts and responses recorded to characterize natural prompting behaviors.
+
+\textbf{Phase 2---Controlled Experiment (Weeks 6--9):} Each participant completes 18 experimental sessions---3 prompt levels $\times$ 2 platforms $\times$ 3 task types (selected from four candidate tasks: algorithm explanation, debugging, complexity analysis, and problem-solving). Task-type assignment and order are counterbalanced using a $4 \times 4$ Latin Square over the full task bank: participants are allocated to one of four groups, each group is assigned a distinct row of the square, and the first three cells of that row determine the three tasks completed in the remaining three sittings. This guarantees that each of the four tasks appears equally often in the first, second, and third positions across the sample. Prompt-level $\times$ platform order within each sitting is randomised independently per participant using a fixed seed recorded in \texttt{parameters.json}. Prompts are pre-designed and administered directly. Each session starts a fresh conversation. The 18 sessions are distributed across three sittings (6 sessions each), separated by at least 48 hours. Two independent raters score all responses using the AIOQ-R rubric under blind conditions (raters are unaware of the prompt level).
+
+\textbf{Phase 3---Qualitative Interviews (Weeks 9--10):} Semi-structured interviews with 8--10 participants selected via maximum variation sampling. Interview questions explore perceptions of prompt--output relationships, perceived learning value, and awareness of over-reliance risks. All interviews are audio-recorded and fully transcribed.
+
+\textbf{Ethical considerations:} Informed consent is obtained from all participants. All data is anonymized. The study protocol will be submitted for institutional ethics review.
+
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}[
+  every node/.style={font=\footnotesize},
+  cell/.style={rectangle, draw=black!55, minimum width=0.9cm, minimum height=0.55cm, align=center, line width=0.4pt},
+  sbox/.style={cell, fill=CUDSkyBlue!12},
+  proc/.style={rectangle, rounded corners=2pt, draw=black!55, minimum width=1.4cm, minimum height=0.55cm, align=center, line width=0.4pt, font=\footnotesize},
+  gprompt/.style={proc, fill=CUDSkyBlue!30},
+  gplatform/.style={proc, fill=CUDBlue!25, minimum width=1.6cm},
+  gtask/.style={proc, fill=CUDBluishGreen!30},
+  phasebox/.style={rectangle, rounded corners=2pt, draw=black!55, minimum width=2.8cm, minimum height=0.8cm, align=center, line width=0.4pt, font=\small, fill=CUDOrange!22},
+  arr/.style={->, thick, >=Stealth, draw=CUDVermilion!85!black, shorten >=1pt, line width=0.55pt},
+  opsym/.style={font=\large\bfseries, text=black!70}
+]
+
+%% (a) Latin Square 4x4 -- CUDSkyBlue gradient left-to-right.
+\node[font=\small\bfseries] at (-3.88, 3.4) {(a) Latin Square $4\times4$};
+\foreach \i/\row in {1/{T1,T2,T3,T4}, 2/{T2,T3,T4,T1}, 3/{T3,T4,T1,T2}, 4/{T4,T1,T2,T3}} {
+  \node[sbox] at (-6.2, {2.6-\i*0.6}) {G\i};
+  \foreach \j/\v [count=\jj from 0] in \row {
+    \node[cell, fill=CUDSkyBlue!\the\numexpr15+\jj*12\relax] at ({-5.3+\jj*0.95}, {2.6-\i*0.6}) {\v};
+  }
+}
+
+%% (b) Multiplicative design 3 x 2 x 3 = 18 with explicit operator symbols.
+\node[font=\small\bfseries] at (3.6, 3.4) {(b) $3\times2\times3 = 18$ sessions/participant};
+\foreach \x/\lbl in {0/Basic, 1.6/Inter, 3.2/Adv} {
+  \node[gprompt] at (\x+1.9, 2.6) {\lbl};
+}
+\node[opsym] at (3.5, 1.9) {$\times$};
+\foreach \x/\lbl in {0/{GPT-4o}, 2.2/Claude} {
+  \node[gplatform] at (\x+2.6, 1.2) {\lbl};
+}
+\node[opsym] at (3.5, 0.5) {$\times$};
+\foreach \x/\lbl in {0/Algo, 1.6/Debug, 3.2/Cplx} {
+  \node[gtask] at (\x+1.9, -0.2) {\lbl};
+}
+\node[opsym] at (3.5, -0.8) {$=$};
+\node[font=\small\bfseries] at (3.5, -1.35) {$\mathbf{18}$ sessions};
+
+%% Bottom timeline -- CUDOrange phases, CUDVermilion arrows.
+\node[phasebox] (ph1) at (-4.5, -2.6) {Phase~1\\Wk~1--2: Baseline};
+\node[phasebox] (ph2) at (0.0, -2.6) {Phase~2\\Wk~6--9: Experiment};
+\node[phasebox] (ph3) at (4.5, -2.6) {Phase~3\\Wk~9--10: Interviews};
+\draw[arr] (ph1.east) -- (ph2.west);
+\draw[arr] (ph2.east) -- (ph3.west);
+\end{tikzpicture}
+\caption{Experimental design. (a) Latin Square counterbalancing assigns distinct task sequences across 4 participant groups (T1--T4 denote task types). (b) 3 prompt levels $\times$ 2 platforms $\times$ 3 task types = 18 sessions per participant, distributed across three sittings separated by $\geq$48~hours. Bottom: 14-week mixed-methods timeline.}
+\label{fig:design}
+\end{figure}
+
+\subsection{Data Analysis Plan}
+
+The analysis strategy comprises four tiers:
+
+\textbf{Primary Analysis:} Two-Way Repeated-Measures ANOVA (Prompt Level $\times$ Platform) is conducted separately for each AIOQ-R dimension and the composite score. Bonferroni-corrected significance level $\alpha' = 0.01$ (i.e., $0.05 / 5$) is applied. Post-hoc pairwise comparisons use Bonferroni correction. Effect sizes are reported as partial $\eta^2$ with 95\% confidence intervals. If sphericity is violated (Mauchly's $p < 0.05$), Greenhouse--Geisser correction is applied. Non-parametric Friedman tests are conducted in parallel as robustness checks.
+
+\textbf{ANCOVA Robustness Check:} ANCOVA with AI literacy as a continuous covariate is performed in parallel to control for confounding effects and verify that the main results (H1) remain significant after accounting for baseline AI literacy variance.
+
+\textbf{LMM Robustness Check:} A Linear Mixed-Effects Model is fitted to handle the nested data structure and potential missing data (MAR). Ceiling effects are assessed via histograms; if maximum scores (5/5) at Level~3 exceed 40\%, supplementary non-parametric analyses are applied.
+
+\textbf{Mixed Methods Integration:} A Joint Display table links (a) AIOQ-R scores by prompt level with natural prompting patterns from Phase~1 to explain outlier patterns, and (b) interaction effects from H3 with interview themes from Phase~3 to explain \emph{why} specific platforms respond differently to advanced prompts on particular task types. Qualitative analysis follows Braun and Clarke's~\cite{Braun2006} six-phase thematic analysis protocol, with inter-rater reliability target of $\kappa \geq 0.67$. Software: SPSS~29 or R (rstatix, emmeans, lme4); NVivo for qualitative coding.
+
+\section{Expected Results}\label{sec:results}
+
+Based on the theoretical framework and converging empirical evidence from the literature, we anticipate the following outcomes structured around the three hypotheses.
+
+\textbf{H1---Prompt Quality Main Effect.} We expect a statistically significant monotonic increase in composite AIOQ-R scores across the three prompt levels: Level~3 (advanced) $>$ Level~2 (intermediate) $>$ Level~1 (basic). The anticipated effect size is partial $\eta^2 \geq 0.06$ (medium effect), grounded in the effect sizes reported by Sawalha et al.~\cite{Sawalha2024} ($d = 0.69$--$0.94$) and the 33\% performance gain documented by Kumar et al.~\cite{Kumar2025}. Among the five AIOQ-R dimensions, the largest gains from Level~1 to Level~3 are expected on \emph{Completeness} and \emph{Learning Value}, as advanced prompts with explicit context and CoT instructions should activate more comprehensive and pedagogically rich responses through the Reasoning Scaffolding mechanism~\cite{Wei2022}. \emph{Accuracy} improvements are anticipated to plateau between Level~2 and Level~3, since both intermediate and advanced prompts sufficiently reduce ambiguity to elicit factually correct responses.
+
+\textbf{H2---Platform Main Effect.} We hypothesize a statistically significant difference in composite AIOQ-R scores between GPT-4o and Claude Sonnet, though the direction is exploratory. Based on publicly available benchmark data, Claude Sonnet may exhibit advantages on multi-step reasoning tasks (due to its Constitutional AI design emphasis), while GPT-4o may perform better on coding-specific tasks such as debugging. This hypothesis serves as a preliminary cross-platform comparison that is currently absent from the literature.
+
+\textbf{H3---Interaction Effect.} We anticipate a significant Prompt Level $\times$ Platform interaction, manifesting as differential sensitivity to prompt quality improvement across task types. Specifically, Claude Sonnet is expected to show greater response quality gains from Level~1 to Level~3 on reasoning-intensive tasks (algorithm explanation, complexity analysis), while GPT-4o may demonstrate more consistent performance across prompt levels on code-generation tasks (debugging, problem-solving). This pattern, if confirmed, would provide evidence that the mechanisms through which prompt quality influences output are architecture-dependent.
+
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    ybar,
+    width=11cm, height=6cm,
+    bar width=10pt,
+    ymin=5, ymax=27,
+    ylabel={Expected AIOQ-R composite (5--25)},
+    symbolic x coords={L1 Basic, L2 Intermediate, L3 Advanced},
+    xtick=data,
+    xlabel={Prompt quality level},
+    legend style={at={(0.02,0.98)}, anchor=north west, font=\footnotesize},
+    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.3cm,0.1cm);},
+    enlarge x limits=0.25,
+    ymajorgrids=true, grid style=dashed,
+    nodes near coords={\pgfmathprintnumber[fixed,precision=1]{\pgfplotspointmeta}},
+    nodes near coords style={font=\scriptsize},
+    error bars/y dir=both,
+    error bars/y explicit,
+]
+\addplot+[fill=blue!50, draw=blue!70,
+         every node near coord/.append style={yshift=-2pt, anchor=north, color=blue!60!black, font=\scriptsize}]
+  coordinates {
+  (L1 Basic, 12.5) +- (0, 1.4)
+  (L2 Intermediate, 18.0) +- (0, 1.2)
+  (L3 Advanced, 21.5) +- (0, 1.1)
+};
+\addplot+[fill=orange!60, draw=orange!80,
+         every node near coord/.append style={yshift=12pt, anchor=south, color=orange!70!black}]
+  coordinates {
+  (L1 Basic, 11.8) +- (0, 1.5)
+  (L2 Intermediate, 18.8) +- (0, 1.3)
+  (L3 Advanced, 22.8) +- (0, 1.1)
+};
+\legend{GPT-4o, Claude Sonnet}
+\end{axis}
+\end{tikzpicture}
+\caption{Anticipated composite AIOQ-R scores by prompt level and platform. Projections are schematic pre-registration exemplars, not empirical point estimates: baseline $L1 \approx 12.5$ is taken as the scale midpoint, and the $L1 \rightarrow L3$ gap of $\approx 9$ points is derived from a composite effect of $d \approx 1.5$ (two-level jump) scaled by pooled $\sigma \approx 3$ on the 5--25 AIOQ-R range, consistent with Sawalha et al.~\cite{Sawalha2024} ($d = 0.69$--$0.94$ single-step) and Kumar et al.~\cite{Kumar2025} (33\% gain). Error bars represent $\pm 1.5$ SEM pre-registration uncertainty bounds; empirical cell means will replace these exemplars after Phase~2 data collection.}
+\label{fig:expected}
+\end{figure}
+
+Figure~\ref{fig:expected} visualises the anticipated monotonic pattern. The projected L1$\rightarrow$L3 gap ($\Delta \approx 9$ composite points) corresponds to partial $\eta^2 \approx 0.10$, exceeding the H1 target threshold of 0.06.
+
+\textbf{Qualitative Expectations.} The semi-structured interviews are expected to reveal: (a) a general awareness among students that better prompts yield better responses, but limited knowledge of specific techniques; (b) a tension between perceived usefulness of AI and concerns about over-reliance; and (c) platform-specific preferences that may explain interaction patterns observed in the quantitative data. The Joint Display integration is expected to identify convergent patterns where high-scoring participants in Phase~2 also exhibited multi-turn critical engagement strategies in Phase~1.
+
+\section{Discussion}\label{sec:discussion}
+
+\subsection{Theoretical Implications}
+
+The anticipated results carry several theoretical implications. First, confirmation of H1 would extend the Knoth et al.~\cite{Knoth2024} causal chain model (AI Literacy $\rightarrow$ Prompt Quality $\rightarrow$ Output Quality) by providing \emph{controlled experimental} evidence---advancing beyond the correlational survey design of the original study. By standardizing prompts across participants, this design isolates the effect of prompt quality on output independently of individual AI literacy, representing a methodological contribution.
+
+Second, the three cognitive mechanisms proposed in this study---Ambiguity Reduction, Task Representation Alignment, and Reasoning Scaffolding---provide a theoretically grounded explanation for \emph{how} prompt quality influences each AIOQ-R dimension, bridging Cognitive Load Theory~\cite{Sweller1988} with LLM processing dynamics. The TAM2 framework~\cite{Venkatesh2000} further provides a behavioral lens for interpreting student perceptions of AI output quality and usefulness. If the anticipated differential patterns across dimensions are confirmed (e.g., larger effects on Learning Value than Accuracy at advanced levels), this would support the hypothesis that these mechanisms operate through distinct pathways rather than a unitary quality construct.
+
+Third, confirmation of H3 would challenge the implicit assumption in the literature that prompt--response dynamics are platform-invariant, providing evidence that the CLEAR framework's effectiveness may be modulated by model architecture. This has implications for both the generalizability of existing prompt engineering research and the design of platform-specific pedagogical guidelines.
+
+\subsection{Practical Implications}
+
+The study's practical contributions center on three deliverables. First, the validated AIOQ-R rubric (target: CVI $\geq 0.80$, $\kappa \geq 0.70$) provides a reusable assessment instrument for researchers and educators evaluating AI-generated content in technical education contexts. Unlike existing unidimensional scales, AIOQ-R's inclusion of Learning Value ensures that pedagogical effectiveness---not merely technical accuracy---is assessed.
+
+Second, the 12 standardized prompts (4 tasks $\times$ 3 levels) serve as both experimental stimuli and practical training materials. These can be adapted into prompt engineering workshops for IT curricula, directly addressing the gap identified by Lee and Palmer~\cite{Lee2025} regarding the absence of formal prompt instruction in university programs.
+
+Third, if platform-specific strengths are confirmed (H2, H3), the results inform evidence-based tool selection guidelines: students could be advised to use specific platforms for specific task types, optimizing their AI-assisted learning outcomes.
+
+\subsection{Limitations and Future Work}
+
+Several limitations should be noted. First, this paper presents a research design and expected results; actual empirical data has not yet been collected. The hypotheses and anticipated patterns are grounded in prior evidence but remain to be confirmed through experimentation. Second, the use of pre-designed controlled prompts reduces ecological validity compared to naturalistic usage; this is partially mitigated by the Phase~1 baseline observation and Phase~3 interviews. Third, the study is conducted at a single institution in Vietnam with a relatively small sample ($N = 30$--$40$), limiting generalizability. Fourth, the AIOQ-R rubric's Learning Value dimension involves inherently subjective judgment, even with anchor examples and blind rating protocols. Fifth, the novelty claim regarding the Southeast Asian context is scoped to English-language peer-reviewed literature indexed at the time of writing; non-English preprints from Vietnamese, Thai, Indonesian, or other regional sources may describe analogous designs that were not captured by our search protocol.
+
+Future work should include: (a) execution of the proposed experiment and analysis of actual data; (b) longitudinal studies examining whether prompt training effects persist over time; (c) extension to additional platforms (e.g., Gemini, open-source models); (d) replication in non-IT disciplines to test domain transferability; and (e) automated evaluation approaches (e.g., LLM-as-judge) to complement human rater assessment and enable larger-scale studies.
+
+\section{Conclusion}\label{sec:conclusion}
+
+This paper presents the design of a controlled within-subjects experiment to investigate the impact of prompt quality on generative AI response efficacy across two competing platforms---ChatGPT (GPT-4o) and Claude Sonnet---in the context of IT students performing academic learning tasks. The study makes three primary contributions.
+
+First, to the authors' knowledge, it proposes one of the earliest cross-platform controlled experimental designs for studying prompt--response dynamics in a Southeast Asian educational context, addressing the geographic and methodological gaps in the existing literature. The within-subjects design with Latin Square counterbalancing and fixed API parameters ensures rigorous control over confounding variables.
+
+Second, it introduces the AIOQ-R rubric, a five-dimensional assessment instrument that uniquely incorporates Learning Value---anchored to Bloom's taxonomy---alongside technical accuracy, completeness, relevance, and clarity. The planned validation protocol (CVI $\geq 0.80$, inter-rater $\kappa \geq 0.70$) is designed to produce a reusable tool for the research community.
+
+Third, it proposes an integrated theoretical framework combining the CLEAR framework for prompt operationalization, Cognitive Load Theory for mechanistic explanation, and TAM2 for behavioral interpretation, providing a comprehensive lens through which prompt--response interactions can be understood.
+
+We anticipate that the empirical results will confirm that prompt quality significantly improves AI response quality, with platform-specific interaction effects across task types. These findings, once validated, will provide evidence-based foundations for integrating prompt engineering into IT curricula and developing practical prompt-writing guidelines for students navigating an AI-augmented educational landscape.
+
+\section*{Declarations}\label{sec:declarations}
+
+\noindent\textbf{Funding:} No external funding; API and computational costs borne by the authors' institutions.
+\textbf{Conflicts of Interest:} None declared; the authors have no commercial or advisory relationship with OpenAI or Anthropic.
+\textbf{Ethics Approval:} Protocol will be submitted to the IRB of FPT University (HCMC) prior to Phase~1; no human-subjects data is collected before approval, and the reference will be reported in the revised submission. All participants provide written informed consent; data is de-identified at capture.
+\textbf{Data and Code Availability:} Code skeleton (Python and R with synthetic-data exemplars) is released at the project repository (anonymised for review). The pre-registration record will be deposited on OSF and the DOI added to the camera-ready version. Phase~2 empirical data will be released under CC~BY~4.0 on acceptance of the follow-up paper.
+\textbf{Author Contributions (CRediT):} Nguyen--Conceptualization, Methodology, Writing~(Original Draft), Project Administration; Ho-Van--Methodology, Statistical Design, Writing~(Review~\& Editing), Supervision; Lam--Software, Validation, Data Curation, Writing~(Review~\& Editing).
+\textbf{Generative AI Usage:} GPT-4o and Claude Sonnet are the \emph{object of study} and are used solely as controlled experimental platforms; no generative AI was used to draft or substantively revise the manuscript beyond minor grammar suggestions, per the 2023 COPE/ICMJE/Springer AI-authorship guidance.
+\textbf{ORCID:} All three authors' ORCID iDs will be finalised in the camera-ready version.
+
+\InputIfFileExists{pilot-macros}{}{%
+  \newcommand{\PilotN}{TBD}%
+  \newcommand{\PilotSessions}{TBD}%
+  \newcommand{\PilotFriedmanChi}{TBD}%
+  \newcommand{\PilotFriedmanDF}{TBD}%
+  \newcommand{\PilotFriedmanP}{TBD}%
+  \newcommand{\PilotKendallW}{TBD}%
+  \newcommand{\PilotAlgoBasic}{TBD}%
+  \newcommand{\PilotAlgoInt}{TBD}%
+  \newcommand{\PilotAlgoAdv}{TBD}%
+  \newcommand{\PilotCxBasic}{TBD}%
+  \newcommand{\PilotCxInt}{TBD}%
+  \newcommand{\PilotCxAdv}{TBD}%
+  \newcommand{\PilotPsBasic}{TBD}%
+  \newcommand{\PilotPsInt}{TBD}%
+  \newcommand{\PilotPsAdv}{TBD}%
+}
+\input{appendix-B}
+\input{appendix-C}
+
+{\footnotesize
+\bibliographystyle{splncs04}
+\bibliography{references}
+}
+
+\end{document}
