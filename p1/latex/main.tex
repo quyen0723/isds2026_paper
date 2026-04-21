@@ -123,28 +123,33 @@ This study is positioned to address all four gaps simultaneously through a contr
 \centering
 \begin{tikzpicture}[
   node distance=0.6cm and 0.6cm,
-  box/.style={rectangle, draw, rounded corners=3pt, minimum width=2.1cm, minimum height=0.85cm, align=center, font=\small},
-  theo/.style={rectangle, draw, dashed, rounded corners=3pt, minimum width=2.0cm, minimum height=0.7cm, align=center, font=\footnotesize, fill=gray!10},
-  arr/.style={->, thick, >=Stealth}
+  box/.style={rectangle, draw, rounded corners=3pt, minimum width=2.1cm, minimum height=0.85cm, align=center, font=\small, line width=0.5pt},
+  boxIn/.style={box, fill=CUDSkyBlue!20, draw=CUDSkyBlue!80!black},
+  boxProc/.style={box, fill=CUDBlue!15, draw=CUDBlue!80!black},
+  boxEmp/.style={box, fill=CUDOrange!30, draw=CUDOrange!80!black},
+  boxOut/.style={box, fill=CUDBluishGreen!25, draw=CUDBluishGreen!80!black},
+  theo/.style={rectangle, draw=gray!60!black, dashed, rounded corners=3pt, minimum width=2.0cm, minimum height=0.7cm, align=center, font=\footnotesize, fill=gray!10},
+  arr/.style={->, thick, >=Stealth, draw=CUDVermilion!85!black, line width=0.55pt},
+  tarr/.style={->, dashed, >=Stealth, draw=gray!60!black}
 ]
-\node[box] (lit) {AI\\Literacy};
-\node[box, right=of lit] (pq) {Prompt\\Quality (CLEAR)};
-\node[box, right=of pq] (mech) {Cognitive\\Mechanisms};
-\node[box, right=of mech] (llm) {LLM\\(GPT-4o / Claude)};
-\node[box, right=of llm] (out) {AIOQ-R\\5 dims};
+\node[boxIn]                     (lit)  {AI\\Literacy};
+\node[boxProc, right=of lit]     (pq)   {Prompt\\Quality (CLEAR)};
+\node[boxEmp,  right=of pq]      (mech) {Cognitive\\Mechanisms};
+\node[boxProc, right=of mech]    (llm)  {LLM\\(GPT-4o / Claude)};
+\node[boxOut,  right=of llm]     (out)  {AIOQ-R\\5 dims};
 
 \draw[arr] (lit) -- (pq);
 \draw[arr] (pq) -- (mech);
 \draw[arr] (mech) -- (llm);
 \draw[arr] (llm) -- (out);
 
-\node[theo, below=1.6cm of pq] (clear) {CLEAR\\Lo~\cite{Lo2023}};
-\node[theo, below=1.6cm of mech] (clt) {CLT\\Sweller~\cite{Sweller1988}};
-\node[theo, below=1.6cm of llm] (tam) {TAM2\\Venkatesh~\cite{Venkatesh2000}};
+\node[theo, below=1.6cm of pq]   (clear) {CLEAR\\Lo~\cite{Lo2023}};
+\node[theo, below=1.6cm of mech] (clt)   {CLT\\Sweller~\cite{Sweller1988}};
+\node[theo, below=1.6cm of llm]  (tam)   {TAM2\\Venkatesh~\cite{Venkatesh2000}};
 
-\draw[->, dashed, gray] (clear) -- (pq);
-\draw[->, dashed, gray] (clt) -- (mech);
-\draw[->, dashed, gray] (tam) -- (out);
+\draw[tarr] (clear) -- (pq);
+\draw[tarr] (clt)   -- (mech);
+\draw[tarr] (tam)   -- (out);
 
 \node[font=\scriptsize, below=0.1cm of mech, align=center] {\{Ambiguity Reduction,\\Task Representation,\\Reasoning Scaffolding\}};
 \end{tikzpicture}
