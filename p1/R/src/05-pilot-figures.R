@@ -47,8 +47,9 @@ plot_pilot_heatmap <- function(result, output_dir) {
   colnames(mat) <- sub("^mean\\.", "", colnames(mat))
   if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
   png(file.path(output_dir, "pilot_aioq_heatmap.png"),
-      width = 1600, height = 1000, res = 200)
-  old_par <- graphics::par(mar = c(8.5, 9, 2, 2), family = "sans")
+      width = 1800, height = 1200, res = 200)
+  old_par <- graphics::par(mar = c(9, 11, 1.5, 2), family = "sans",
+                           mgp = c(3, 0.6, 0))
   on.exit(graphics::par(old_par), add = TRUE)
   pal <- grDevices::colorRampPalette(
     c(cud$Blue, cud$SkyBlue, cud$Yellow, cud$Orange, cud$Vermilion)
@@ -59,15 +60,13 @@ plot_pilot_heatmap <- function(result, output_dir) {
   image(x = seq_len(ncol(mat)), y = seq_len(nrow(mat)), z = t(mat),
         col = pal, axes = FALSE, xlab = "", ylab = "", zlim = zlim)
   graphics::axis(1, at = seq_len(ncol(mat)), labels = colnames(mat),
-                 las = 2, cex.axis = 0.95)
+                 las = 2, cex.axis = 1.0, tick = FALSE)
   graphics::axis(2, at = seq_len(nrow(mat)), labels = rownames(mat),
-                 las = 1, cex.axis = 0.95)
+                 las = 1, cex.axis = 1.0, tick = FALSE)
   for (i in seq_len(nrow(mat))) for (j in seq_len(ncol(mat))) {
     txt <- sprintf("%.1f", mat[i, j])
     graphics::text(j, i, txt, cex = 1.1, col = cud$Black, font = 2)
   }
-  graphics::mtext("Composite AIOQ-R (CUD diverging)", side = 1,
-                  line = 7, cex = 0.9)
   dev.off()
 }
 
