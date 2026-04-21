@@ -21,20 +21,21 @@ plot_pilot_bars <- function(result, output_dir) {
     if (nrow(row) == 1) { mat[i, j] <- row$mean; sds[i, j] <- row$sd }
   }
   bp <- graphics::barplot(mat, beside = TRUE, col = fills,
-                          ylim = c(0, 27),
+                          ylim = c(0, 28),
                           ylab = "Composite AIOQ-R (5-25)",
                           xlab = "Task type", las = 1)
   graphics::arrows(bp, mat - sds, bp, mat + sds,
                    angle = 90, code = 3, length = 0.04, col = cud$Black)
-  # Data labels: mean value above each error bar.
+  # Data labels: centred inside the bar body, white on coloured fill
+  # so they never overlap the error-bar whiskers.
   for (i in seq_len(nrow(mat))) for (j in seq_len(ncol(mat))) {
     if (!is.na(mat[i, j])) {
-      y_pos <- mat[i, j] + (if (is.na(sds[i, j])) 0 else sds[i, j]) + 0.45
-      graphics::text(bp[i, j], y_pos, sprintf("%.1f", mat[i, j]),
-                     cex = 0.78, col = cud$Black, font = 2)
+      graphics::text(bp[i, j], mat[i, j] / 2,
+                     sprintf("%.1f", mat[i, j]),
+                     cex = 0.85, col = "white", font = 2)
     }
   }
-  # Legend above the plot area (xpd=TRUE) so it never overlaps bars.
+  # Legend sits above all error bars on its own row.
   graphics::legend(
     x = mean(range(bp)), y = 30,
     legend = levels_order, fill = fills,

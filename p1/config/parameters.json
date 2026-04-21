@@ -27,11 +27,12 @@
   },
 
   "platforms_api": {
-    "temperature": 0.7,
-    "gpt_4o_version": "gpt-4o-2024-08-06",
-    "claude_sonnet_version": "claude-sonnet-4-5-20250929",
-    "version_pinning_rationale": "Pinned to match main.tex L201; prevents silent model drift across the 14-week experiment window.",
-    "fallback_on_deprecation": "If either snapshot is deprecated before Phase 2, migrate to the closest successor (e.g., gpt-4o-YYYY-MM or claude-sonnet-4-6-*) and report migration window + re-calibration data in the revised manuscript."
+    "temperature": "provider-default",
+    "gpt_4o_mini_endpoint": "http://127.0.0.1:2812/api/ask (local relay, OpenAI upstream)",
+    "glm_5_1_endpoint": "local CLI, Ollama Cloud route",
+    "pilot_used_models": ["gpt-4o-mini", "glm-5.1"],
+    "version_pinning_rationale": "Pilot used the exact same endpoints that Phase 2 will use; if either snapshot is deprecated before data collection, migrate to the closest successor and re-run a calibration pilot.",
+    "fallback_on_deprecation": "Report the migration window + re-calibration data in the revised manuscript."
   },
 
   "rubric_AIOQ_R": {

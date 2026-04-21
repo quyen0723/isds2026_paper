@@ -63,7 +63,7 @@
 }
 
 \begin{abstract}
-The rapid adoption of generative artificial intelligence (GenAI) tools such as ChatGPT and Claude among university students has raised a critical pedagogical question: does the quality of user-written prompts significantly influence the quality of AI-generated responses? Despite growing evidence that prompt engineering matters, most existing studies examine only a single AI platform, rely on uncontrolled observations, and are situated exclusively in Western educational contexts. This paper presents the design of a controlled within-subjects experiment to quantify the impact of prompt quality on GenAI response efficacy across two competing platforms---ChatGPT (GPT-4o) and Claude Sonnet---in the context of IT students performing academic learning tasks at a Vietnamese university. We operationalize prompt quality into three levels (basic, intermediate, advanced) guided by the CLEAR framework and measure response quality using a proposed five-dimensional AI Output Quality Rubric (AIOQ-R) covering accuracy, completeness, relevance, clarity, and learning value. The experimental design employs a Two-Way Repeated-Measures ANOVA with Latin Square counterbalancing ($N = 30$--$40$), complemented by semi-structured interviews analyzed through thematic analysis. We hypothesize that higher prompt quality produces significantly better AI responses (partial $\eta^2 \geq 0.06$) and that platform-specific differences emerge across task types. To the authors' knowledge, this study contributes one of the earliest cross-platform controlled experimental designs in a Southeast Asian educational setting, a validated assessment rubric, and practical prompt-writing guidelines for IT students.
+The rapid adoption of generative artificial intelligence (GenAI) tools such as ChatGPT and Claude among university students has raised a critical pedagogical question: does the quality of user-written prompts significantly influence the quality of AI-generated responses? Despite growing evidence that prompt engineering matters, most existing studies examine only a single AI platform, rely on uncontrolled observations, and are situated exclusively in Western educational contexts. This paper presents the design of a controlled within-subjects experiment to quantify the impact of prompt quality on GenAI response efficacy across two competing platforms---OpenAI's GPT-4o-mini and Zhipu AI's GLM-5.1---in the context of IT students performing academic learning tasks at a Vietnamese university. We operationalize prompt quality into three levels (basic, intermediate, advanced) guided by the CLEAR framework and measure response quality using a proposed five-dimensional AI Output Quality Rubric (AIOQ-R) covering accuracy, completeness, relevance, clarity, and learning value. The experimental design employs a Two-Way Repeated-Measures ANOVA with Latin Square counterbalancing ($N = 30$--$40$), complemented by semi-structured interviews analyzed through thematic analysis. We hypothesize that higher prompt quality produces significantly better AI responses (partial $\eta^2 \geq 0.06$) and that platform-specific differences emerge across task types. To the authors' knowledge, this study contributes one of the earliest cross-platform controlled experimental designs in a Southeast Asian educational setting, a validated assessment rubric, and practical prompt-writing guidelines for IT students.
 
 \keywords{prompt engineering \and generative AI \and response quality \and AIOQ-R rubric \and higher education \and CLEAR framework}
 \end{abstract}
@@ -78,11 +78,11 @@ Converging evidence from recent studies reinforces these findings. Kumar et al.~
 
 Despite these advances, three critical research gaps remain. \emph{First}, the vast majority of existing studies examine only a single AI platform (predominantly ChatGPT), precluding cross-platform comparisons---even though students routinely use multiple tools and need evidence-based guidance on platform selection. \emph{Second}, the entire body of literature is concentrated in Western educational contexts; no controlled study has been conducted in Southeast Asia, despite comparable GenAI adoption rates among Vietnamese engineering students~\cite{Bui2025}. \emph{Third}, there is a conspicuous absence of validated, multi-dimensional assessment instruments---most studies employ ad hoc scales measuring only accuracy, neglecting educationally significant dimensions such as learning value.
 
-To address these gaps, the present study proposes a controlled within-subjects experiment examining the impact of prompt quality on AI response quality across two platforms (ChatGPT GPT-4o and Claude Sonnet) in the context of IT learning tasks at a Vietnamese university. The study is guided by three research questions:
+To address these gaps, the present study proposes a controlled within-subjects experiment examining the impact of prompt quality on AI response quality across two platforms (GPT-4o-mini and GLM-5.1) in the context of IT learning tasks at a Vietnamese university. The study is guided by three research questions:
 
 \begin{itemize}
   \item \textbf{RQ1:} To what extent do three levels of prompt quality (basic, intermediate, advanced) affect AI response quality, as measured by the five dimensions of the AIOQ-R rubric?
-  \item \textbf{RQ2:} Are there statistically significant differences in response quality between ChatGPT (GPT-4o) and Claude Sonnet under identical prompt conditions?
+  \item \textbf{RQ2:} Are there statistically significant differences in response quality between GPT-4o-mini and GLM-5.1 under identical prompt conditions?
   \item \textbf{RQ3:} Is there a significant interaction effect between prompt quality level and AI platform on response quality across different IT task types?
 \end{itemize}
 
@@ -90,8 +90,8 @@ Based on the theoretical framework and prior empirical evidence~\cite{Knoth2024,
 
 \begin{itemize}
   \item \textbf{H1 (Main effect---Prompt Quality):} Prompt quality level has a statistically significant effect on composite AIOQ-R scores, with the expected ordering: advanced $>$ intermediate $>$ basic (anticipated partial $\eta^2 \geq 0.06$).
-  \item \textbf{H2 (Main effect---Platform):} There is a statistically significant difference in composite AIOQ-R scores between GPT-4o and Claude Sonnet under identical prompt conditions. This hypothesis is exploratory.
-  \item \textbf{H3 (Interaction effect):} There is a significant interaction between prompt quality level and AI platform, with Claude Sonnet expected to show greater sensitivity to prompt improvement on reasoning tasks and GPT-4o on coding tasks.
+  \item \textbf{H2 (Main effect---Platform):} There is a statistically significant difference in composite AIOQ-R scores between GPT-4o-mini and GLM-5.1 under identical prompt conditions. This hypothesis is exploratory.
+  \item \textbf{H3 (Interaction effect):} There is a significant interaction between prompt quality level and AI platform, with GLM-5.1 expected to show greater sensitivity to prompt structural completeness and GPT-4o-mini a flatter ceiling on compact tasks.
 \end{itemize}
 
 This paper makes three contributions: (1) to the authors' knowledge, among the earliest controlled cross-platform experimental designs for studying prompt--response dynamics in a Southeast Asian educational setting; (2) a proposed five-dimensional AIOQ-R rubric with a planned validation protocol (CVI $\geq 0.80$, $\kappa \geq 0.70$); and (3) an integrated theoretical framework combining the CLEAR framework, Cognitive Load Theory~\cite{Sweller1988}, and TAM2~\cite{Davis1989,Venkatesh2000} to explain the prompt--response mechanism.
@@ -154,7 +154,7 @@ This study is positioned to address all four gaps simultaneously through a contr
 \node[boxIn]                     (lit)  {AI\\Literacy};
 \node[boxProc, right=of lit]     (pq)   {Prompt\\Quality (CLEAR)};
 \node[boxEmp,  right=of pq]      (mech) {Cognitive\\Mechanisms};
-\node[boxProc, right=of mech]    (llm)  {LLM\\(GPT-4o / Claude)};
+\node[boxProc, right=of mech]    (llm)  {LLM\\(GPT-4o-mini / GLM-5.1)};
 \node[boxOut,  right=of llm]     (out)  {AIOQ-R\\5 dims};
 
 \draw[arr] (lit) -- (pq);
@@ -297,7 +297,7 @@ Learning Value & Stimulation of higher-order thinking~\cite{Anderson2001}; expla
 \end{tabular}
 \end{table}
 
-\textbf{Moderator:} AI platform---ChatGPT (GPT-4o, API version \texttt{gpt-4o-2024-08-06}) vs. Claude Sonnet (API version \texttt{claude-sonnet-4-5-20250929}). Both versions remain fixed throughout the experiment to prevent silent model updates from confounding results. If either API snapshot is deprecated before Phase~2, the study will migrate to the closest successor snapshot and report the migration window together with a re-calibration check. Temperature is held at 0.7 for both platforms to match the default consumer-facing sampling regime while keeping the stochastic budget identical across conditions; temperature effects on output variance are therefore held constant, not eliminated.
+\textbf{Moderator:} AI platform---GPT-4o-mini (OpenAI) vs. GLM-5.1 (Zhipu AI). Both are the same snapshots used in the pilot reported in Section~\ref{sec:pilot} and will remain pinned throughout Phase~2 to prevent silent model updates from confounding results. If either snapshot is deprecated before data collection completes, the study will migrate to the closest successor snapshot and report the migration window together with a re-calibration check. Sampling temperature is held at the provider default for both platforms and the stochastic budget is held identical across conditions; temperature effects on output variance are therefore held constant, not eliminated.
 
 \textbf{Covariate:} Self-reported AI literacy score, measured via a pre-survey instrument adapted from Knoth et al.~\cite{Knoth2024}, used in ANCOVA robustness checks.
 
@@ -343,7 +343,7 @@ The data collection follows three phases over a 14-week semester:
   \node[gprompt] at (\x+1.9, 2.6) {\lbl};
 }
 \node[opsym] at (3.5, 1.9) {$\times$};
-\foreach \x/\lbl in {0/{GPT-4o}, 2.2/Claude} {
+\foreach \x/\lbl in {0/{GPT-4o-mini}, 2.2/GLM-5.1} {
   \node[gplatform] at (\x+2.6, 1.2) {\lbl};
 }
 \node[opsym] at (3.5, 0.5) {$\times$};
@@ -404,9 +404,9 @@ Pilot signals inform, but do not supersede, the pre-registered hypotheses for th
 
 \textbf{H1---Prompt Quality Main Effect.} We expect a statistically significant monotonic increase in composite AIOQ-R scores across the three prompt levels: Level~3 (advanced) $>$ Level~2 (intermediate) $>$ Level~1 (basic). The anticipated effect size is partial $\eta^2 \geq 0.06$ (medium effect), grounded in the effect sizes reported by Sawalha et al.~\cite{Sawalha2024} ($d = 0.69$--$0.94$) and the 33\% performance gain documented by Kumar et al.~\cite{Kumar2025}. Among the five AIOQ-R dimensions, the largest gains from Level~1 to Level~3 are expected on \emph{Completeness} and \emph{Learning Value}, as advanced prompts with explicit context and CoT instructions should activate more comprehensive and pedagogically rich responses through the Reasoning Scaffolding mechanism~\cite{Wei2022}. \emph{Accuracy} improvements are anticipated to plateau between Level~2 and Level~3, since both intermediate and advanced prompts sufficiently reduce ambiguity to elicit factually correct responses.
 
-\textbf{H2---Platform Main Effect.} We hypothesize a statistically significant difference in composite AIOQ-R scores between GPT-4o and Claude Sonnet, though the direction is exploratory. Based on publicly available benchmark data, Claude Sonnet may exhibit advantages on multi-step reasoning tasks (due to its Constitutional AI design emphasis), while GPT-4o may perform better on coding-specific tasks such as debugging. This hypothesis serves as a preliminary cross-platform comparison that is currently absent from the literature.
+\textbf{H2---Platform Main Effect.} We hypothesize a statistically significant difference in composite AIOQ-R scores between GPT-4o-mini and GLM-5.1, though the direction is exploratory. Pilot evidence (Section~\ref{sec:pilot}) suggests GLM-5.1 may show larger gains when prompt structural completeness increases, while GPT-4o-mini hits a ceiling earlier. The hypothesis therefore captures both a main-effect and a ceiling-sensitivity prediction.
 
-\textbf{H3---Interaction Effect.} We anticipate a significant Prompt Level $\times$ Platform interaction, manifesting as differential sensitivity to prompt quality improvement across task types. Specifically, Claude Sonnet is expected to show greater response quality gains from Level~1 to Level~3 on reasoning-intensive tasks (algorithm explanation, complexity analysis), while GPT-4o may demonstrate more consistent performance across prompt levels on code-generation tasks (debugging, problem-solving). This pattern, if confirmed, would provide evidence that the mechanisms through which prompt quality influences output are architecture-dependent.
+\textbf{H3---Interaction Effect.} We anticipate a significant Prompt Level $\times$ Platform interaction, manifesting as differential sensitivity to prompt structural completeness across task types. Specifically, GLM-5.1 is expected to show larger L1$\to$L3 gains on tasks that reward explicit derivation (complexity analysis), while GPT-4o-mini is expected to show a flatter profile because its L1 responses already saturate the judge's scale on compact HumanEval-style problems. This pattern, already visible in the pilot, would indicate that the mechanisms through which prompt quality influences output are architecture-dependent.
 
 \textbf{Qualitative Expectations.} The semi-structured interviews are expected to reveal: (a) a general awareness among students that better prompts yield better responses, but limited knowledge of specific techniques; (b) a tension between perceived usefulness of AI and concerns about over-reliance; and (c) platform-specific preferences that may explain interaction patterns observed in the quantitative data. The Joint Display integration is expected to identify convergent patterns where high-scoring participants in Phase~2 also exhibited multi-turn critical engagement strategies in Phase~1.
 
@@ -436,7 +436,7 @@ Future work should include: (a) execution of the proposed experiment and analysi
 
 \section{Conclusion}\label{sec:conclusion}
 
-This paper presents the design of a controlled within-subjects experiment to investigate the impact of prompt quality on generative AI response efficacy across two competing platforms---ChatGPT (GPT-4o) and Claude Sonnet---in the context of IT students performing academic learning tasks. The study makes three primary contributions.
+This paper presents the design of a controlled within-subjects experiment to investigate the impact of prompt quality on generative AI response efficacy across two competing platforms---GPT-4o-mini and GLM-5.1---in the context of IT students performing academic learning tasks. The study makes three primary contributions.
 
 First, to the authors' knowledge, it proposes one of the earliest cross-platform controlled experimental designs for studying prompt--response dynamics in a Southeast Asian educational context, addressing the geographic and methodological gaps in the existing literature. The within-subjects design with Latin Square counterbalancing and fixed API parameters ensures rigorous control over confounding variables.
 
@@ -453,7 +453,7 @@ We anticipate that the empirical results will confirm that prompt quality signif
 \textbf{Ethics Approval:} Protocol will be submitted to the IRB of FPT University (HCMC) prior to Phase~1; no human-subjects data is collected before approval, and the reference will be reported in the revised submission. All participants provide written informed consent; data is de-identified at capture.
 \textbf{Data and Code Availability:} Code skeleton (Python and R with synthetic-data exemplars) is released at the project repository (anonymised for review). The pre-registration record will be deposited on OSF and the DOI added to the camera-ready version. Phase~2 empirical data will be released under CC~BY~4.0 on acceptance of the follow-up paper.
 \textbf{Author Contributions (CRediT):} Nguyen--Conceptualization, Methodology, Writing~(Original Draft), Project Administration; Ho-Van--Methodology, Statistical Design, Writing~(Review~\& Editing), Supervision; Lam--Software, Validation, Data Curation, Writing~(Review~\& Editing).
-\textbf{Generative AI Usage:} GPT-4o and Claude Sonnet are the \emph{object of study} and are used solely as controlled experimental platforms; no generative AI was used to draft or substantively revise the manuscript beyond minor grammar suggestions, per the 2023 COPE/ICMJE/Springer AI-authorship guidance.
+\textbf{Generative AI Usage:} GPT-4o-mini and GLM-5.1 are the \emph{object of study} and are used solely as controlled experimental platforms; no generative AI was used to draft or substantively revise the manuscript beyond minor grammar suggestions, per the 2023 COPE/ICMJE/Springer AI-authorship guidance.
 \textbf{ORCID:} All three authors' ORCID iDs will be finalised in the camera-ready version.
 
 {\footnotesize
