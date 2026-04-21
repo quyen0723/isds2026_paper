@@ -23,7 +23,8 @@ import time
 from typing import Any
 
 CLI = "/home/fong/.opencode/bin/opencode"
-DEFAULT_MODEL = "opencode/glm-5.1"
+CLI_MODEL_ARG = "ollama-cloud/glm-5.1"  # user's default working route
+PUBLIC_MODEL_LABEL = "glm-5.1"          # platform label reported in paper
 COOLDOWN_S = 1.5
 TIMEOUT_S = 180
 _LAST = [0.0]
@@ -50,39 +51,38 @@ def _extract_json_events(stdout: str) -> list[dict[str, Any]]:
 
 
 def _extract_text(events: list[dict[str, Any]], fallback: str) -> str:
-    for ev in events:
-        if ev.get("type") == "error":
-            msg = ev.get("error", {}).get("data", {}).get("message")
-            return f"[opencode error] {msg or ev['error']}"
     chunks: list[str] = []
     for ev in events:
-        content = ev.get("content")
-        if isinstance(content, list):
-            for c in content:
-                if isinstance(c, dict) and c.get("type") == "text" and "text" in c:
-                    chunks.append(c["text"])
-        elif isinstance(ev.get("delta"), str):
-            chunks.append(ev["delta"])
+        if ev.get("type") != "text":
+            continue
+        part = ev.get("part") or {}
+        if isinstance(part, dict) and isinstance(part.get("text"), str):
+            chunks.append(part["text"])
         elif isinstance(ev.get("text"), str):
             chunks.append(ev["text"])
     return "".join(chunks).strip() or fallback
 
 
-def ask(prompt: str, model: str = DEFAULT_MODEL) -> dict[str, Any]:
+def ask(prompt: str) -> dict[str, Any]:
     _throttle()
     start = time.time()
-    cmd = [CLI, "run", "-m", model, "--format", "json", prompt]
-    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=TIMEOUT_S)
+    cmd = [CLI, "run", "-m", CLI_MODEL_ARG, "--format", "json", prompt]
+    try:
+        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=TIMEOUT_S)
+    except subprocess.TimeoutExpired:
+        wall = int((time.time() - start) * 1000)
+        return {"text": "[timeout] inference exceeded wall-time budget",
+                "model": PUBLIC_MODEL_LABEL, "wall_ms": wall,
+                "cached": False, "returncode": -1, "error": "timeout"}
     wall = int((time.time() - start) * 1000)
     events = _extract_json_events(proc.stdout)
     err = next((e for e in events if e.get("type") == "error"), None)
     if err:
         msg = err.get("error", {}).get("data", {}).get("message", str(err))
-        text = f"[opencode error] {msg}"
-        return {"text": text, "model": model, "wall_ms": wall,
-                "cached": False, "returncode": proc.returncode,
-                "error": msg}
+        return {"text": f"[error] {msg}", "model": PUBLIC_MODEL_LABEL,
+                "wall_ms": wall, "cached": False,
+                "returncode": proc.returncode, "error": msg}
     stripped = _ANSI.sub("", proc.stdout)
     text = _extract_text(events, stripped.strip() or proc.stderr)
-    return {"text": text, "model": model, "wall_ms": wall,
+    return {"text": text, "model": PUBLIC_MODEL_LABEL, "wall_ms": wall,
             "cached": False, "returncode": proc.returncode}
