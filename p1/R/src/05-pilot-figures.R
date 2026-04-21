@@ -8,8 +8,9 @@ plot_pilot_bars <- function(result, output_dir) {
   fills <- c(cud$SkyBlue, cud$Orange, cud$BluishGreen)
   if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
   png(file.path(output_dir, "pilot_aioq_by_level_task.png"),
-      width = 1600, height = 1000, res = 200)
-  old_par <- graphics::par(mar = c(5, 4.5, 2, 1), family = "sans")
+      width = 1700, height = 1050, res = 200)
+  old_par <- graphics::par(mar = c(5, 4.5, 4.5, 1), family = "sans",
+                           xpd = TRUE)
   on.exit(graphics::par(old_par), add = TRUE)
   mat <- matrix(NA_real_, nrow = length(levels_order), ncol = length(tasks))
   sds <- matrix(NA_real_, nrow = length(levels_order), ncol = length(tasks))
@@ -20,13 +21,18 @@ plot_pilot_bars <- function(result, output_dir) {
     if (nrow(row) == 1) { mat[i, j] <- row$mean; sds[i, j] <- row$sd }
   }
   bp <- graphics::barplot(mat, beside = TRUE, col = fills,
-                          ylim = c(0, 25), ylab = "Composite AIOQ-R (5-25)",
-                          xlab = "Task type", las = 1,
-                          legend.text = levels_order,
-                          args.legend = list(x = "topleft", bty = "n", cex = 0.9))
+                          ylim = c(0, 25),
+                          ylab = "Composite AIOQ-R (5-25)",
+                          xlab = "Task type", las = 1)
   graphics::arrows(bp, mat - sds, bp, mat + sds,
                    angle = 90, code = 3, length = 0.04, col = cud$Black)
   graphics::abline(h = c(5, 25), lty = 3, col = cud$Black)
+  # Legend above the plot area (xpd=TRUE) so it never overlaps bars.
+  graphics::legend(
+    x = mean(range(bp)), y = 28.5,
+    legend = levels_order, fill = fills,
+    horiz = TRUE, bty = "n", cex = 0.95, xjust = 0.5
+  )
   dev.off()
 }
 
@@ -41,18 +47,27 @@ plot_pilot_heatmap <- function(result, output_dir) {
   colnames(mat) <- sub("^mean\\.", "", colnames(mat))
   if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
   png(file.path(output_dir, "pilot_aioq_heatmap.png"),
-      width = 1400, height = 900, res = 200)
-  old_par <- graphics::par(mar = c(6, 7, 2, 2), family = "sans")
+      width = 1600, height = 1000, res = 200)
+  old_par <- graphics::par(mar = c(8.5, 9, 2, 2), family = "sans")
   on.exit(graphics::par(old_par), add = TRUE)
-  pal <- grDevices::colorRampPalette(c(cud$SkyBlue, cud$Yellow, cud$Vermilion))(64)
+  pal <- grDevices::colorRampPalette(
+    c(cud$Blue, cud$SkyBlue, cud$Yellow, cud$Orange, cud$Vermilion)
+  )(64)
+  rng <- range(mat, na.rm = TRUE)
+  pad <- max(0.5, 0.1 * diff(rng))
+  zlim <- c(floor((rng[1] - pad) * 10) / 10, ceiling((rng[2] + pad) * 10) / 10)
   image(x = seq_len(ncol(mat)), y = seq_len(nrow(mat)), z = t(mat),
-        col = pal, axes = FALSE, xlab = "", ylab = "",
-        zlim = c(5, 25))
-  graphics::axis(1, at = seq_len(ncol(mat)), labels = colnames(mat), las = 2)
-  graphics::axis(2, at = seq_len(nrow(mat)), labels = rownames(mat), las = 1)
+        col = pal, axes = FALSE, xlab = "", ylab = "", zlim = zlim)
+  graphics::axis(1, at = seq_len(ncol(mat)), labels = colnames(mat),
+                 las = 2, cex.axis = 0.95)
+  graphics::axis(2, at = seq_len(nrow(mat)), labels = rownames(mat),
+                 las = 1, cex.axis = 0.95)
   for (i in seq_len(nrow(mat))) for (j in seq_len(ncol(mat))) {
-    graphics::text(j, i, sprintf("%.1f", mat[i, j]), cex = 0.9, col = cud$Black)
+    txt <- sprintf("%.1f", mat[i, j])
+    graphics::text(j, i, txt, cex = 1.1, col = cud$Black, font = 2)
   }
+  graphics::mtext("Composite AIOQ-R (CUD diverging)", side = 1,
+                  line = 7, cex = 0.9)
   dev.off()
 }
 

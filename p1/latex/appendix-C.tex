@@ -1,59 +1,34 @@
-% Appendix C — 9 CLEAR-grounded prompt templates (compact, verbatim).
-% Reproducibility: identical templates live in p1/python/src/prompt_builder.py.
+% Appendix C — RCIFENI-O CLEAR-level operationalisation summary.
+% No external paths in paper body. Full verbatim templates in the
+% supplementary material released with the paper.
 
-\section*{Appendix C: Prompt Templates}\label{sec:appendix-c}
+\section*{Appendix C: Prompt Templates (RCIFENI-O)}\label{sec:appendix-c}
 
-Nine templates (three CLEAR levels~$\times$ three pedagogical framings) were
-applied verbatim; \texttt{\{signature\}} is replaced by the HumanEval
-\texttt{prompt} field (function signature plus docstring). Source of truth:
-\texttt{p1/python/src/prompt\_builder.py}.
+All nine prompts (three CLEAR levels $\times$ three pedagogical
+framings) and the AIOQ-R judge prompt are assembled with an eight-field
+framework we refer to as RCIFENI-O: \textbf{R}ole, \textbf{C}ontext,
+\textbf{I}nstructions, \textbf{F}ormat, \textbf{E}xample (optional),
+\textbf{N}otices, \textbf{I}nput, \textbf{O}KR. The CLEAR
+level~\cite{Lo2023} therefore maps deterministically to
+\emph{structural completeness}, not merely a criterion count.
 
-{\footnotesize
-\begin{description}
-  \item[Algorithm explanation --- L1 basic.] \texttt{Explain this:
-  \{signature\}}
+\begin{table}[htbp]
+  \centering
+  \caption{CLEAR level $\to$ RCIFENI-O sections instantiated. Problem-solving
+           at L3 additionally embeds a Gherkin Given/When/Then acceptance
+           contract for the code-producing subtask.}
+  \label{tab:clear-rcifeni}
+  \begin{tabular}{lll}
+    \toprule
+    CLEAR level & RCIFENI-O sections & Gherkin block \\
+    \midrule
+    L1 basic        & Input only                              & no  \\
+    L2 intermediate & Role + Instructions + Input             & no  \\
+    L3 advanced     & Role + Context + Instructions + Format  & yes \\
+                    & \quad + Notices + OKR + Input           & (L3 problem-solving only) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
-  \item[Algorithm explanation --- L2 intermediate.] You are teaching CS.
-  Concisely explain the algorithm for this function. List the steps in
-  order.~\texttt{\{signature\}}
-
-  \item[Algorithm explanation --- L3 advanced.] As a CS tutor for an IT
-  undergraduate, provide a structured explanation of the algorithm behind
-  the function below. Follow these steps: (1) restate the problem in plain
-  English; (2) outline the high-level approach; (3) walk through the key
-  invariants or data flow; (4) state when this approach is preferred over
-  alternatives. Use concise prose, adapt vocabulary to an undergraduate
-  audience, and end with a one-sentence self-check:
-  `Does this explanation help someone solve a similar problem
-  themselves?'~\texttt{\{signature\}}
-
-  \item[Complexity analysis --- L1 basic.] \texttt{What is the complexity
-  of this? \{signature\}}
-
-  \item[Complexity analysis --- L2 intermediate.] Analyze the time and
-  space complexity of this function. State the Big-O at the
-  end.~\texttt{\{signature\}}
-
-  \item[Complexity analysis --- L3 advanced.] As a CS tutor, conduct a
-  complexity analysis for the function below. Follow these steps: (1)
-  identify loops and recursions; (2) count operations symbolically;
-  (3) derive worst-case time $T(n)$ and auxiliary space $S(n)$;
-  (4) comment on whether this is asymptotically optimal for the problem;
-  (5) end with a self-check: `Can a student replicate this analysis on a
-  similar problem?'~\texttt{\{signature\}}
-
-  \item[Problem solving --- L1 basic.] \texttt{Solve: \{signature\}}
-
-  \item[Problem solving --- L2 intermediate.] Write a Python
-  implementation for the function below. Return only the function body
-  (no explanation).~\texttt{\{signature\}}
-
-  \item[Problem solving --- L3 advanced.] You are a senior Python engineer
-  mentoring an IT undergraduate. Write a clean, idiomatic Python
-  implementation for the function below. Requirements: (1) include a
-  one-line docstring summary; (2) use Pythonic constructs where
-  appropriate; (3) avoid external libraries; (4) aim for the best
-  complexity you can justify; (5) end with a brief comment verifying edge
-  cases you considered.~\texttt{\{signature\}}
-\end{description}
-}
+The full verbatim text of all nine templates and the AIOQ-R judge prompt
+is distributed in the supplementary material that accompanies the paper.

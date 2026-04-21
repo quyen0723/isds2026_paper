@@ -44,6 +44,24 @@
 
 \maketitle
 
+\InputIfFileExists{pilot-macros}{}{%
+  \newcommand{\PilotN}{TBD}%
+  \newcommand{\PilotSessions}{TBD}%
+  \newcommand{\PilotFriedmanChi}{TBD}%
+  \newcommand{\PilotFriedmanDF}{TBD}%
+  \newcommand{\PilotFriedmanP}{TBD}%
+  \newcommand{\PilotKendallW}{TBD}%
+  \newcommand{\PilotAlgoBasic}{TBD}%
+  \newcommand{\PilotAlgoInt}{TBD}%
+  \newcommand{\PilotAlgoAdv}{TBD}%
+  \newcommand{\PilotCxBasic}{TBD}%
+  \newcommand{\PilotCxInt}{TBD}%
+  \newcommand{\PilotCxAdv}{TBD}%
+  \newcommand{\PilotPsBasic}{TBD}%
+  \newcommand{\PilotPsInt}{TBD}%
+  \newcommand{\PilotPsAdv}{TBD}%
+}
+
 \begin{abstract}
 The rapid adoption of generative artificial intelligence (GenAI) tools such as ChatGPT and Claude among university students has raised a critical pedagogical question: does the quality of user-written prompts significantly influence the quality of AI-generated responses? Despite growing evidence that prompt engineering matters, most existing studies examine only a single AI platform, rely on uncontrolled observations, and are situated exclusively in Western educational contexts. This paper presents the design of a controlled within-subjects experiment to quantify the impact of prompt quality on GenAI response efficacy across two competing platforms---ChatGPT (GPT-4o) and Claude Sonnet---in the context of IT students performing academic learning tasks at a Vietnamese university. We operationalize prompt quality into three levels (basic, intermediate, advanced) guided by the CLEAR framework and measure response quality using a proposed five-dimensional AI Output Quality Rubric (AIOQ-R) covering accuracy, completeness, relevance, clarity, and learning value. The experimental design employs a Two-Way Repeated-Measures ANOVA with Latin Square counterbalancing ($N = 30$--$40$), complemented by semi-structured interviews analyzed through thematic analysis. We hypothesize that higher prompt quality produces significantly better AI responses (partial $\eta^2 \geq 0.06$) and that platform-specific differences emerge across task types. To the authors' knowledge, this study contributes one of the earliest cross-platform controlled experimental designs in a Southeast Asian educational setting, a validated assessment rubric, and practical prompt-writing guidelines for IT students.
 
@@ -290,59 +308,37 @@ The analysis strategy comprises four tiers:
 
 \textbf{Mixed Methods Integration:} A Joint Display table links (a) AIOQ-R scores by prompt level with natural prompting patterns from Phase~1 to explain outlier patterns, and (b) interaction effects from H3 with interview themes from Phase~3 to explain \emph{why} specific platforms respond differently to advanced prompts on particular task types. Qualitative analysis follows Braun and Clarke's~\cite{Braun2006} six-phase thematic analysis protocol, with inter-rater reliability target of $\kappa \geq 0.67$. Software: SPSS~29 or R (rstatix, emmeans, lme4); NVivo for qualitative coding.
 
-\section{Expected Results}\label{sec:results}
+\section{Results}\label{sec:results}
 
-Based on the theoretical framework and converging empirical evidence from the literature, we anticipate the following outcomes structured around the three hypotheses.
+\subsection{Computational Feasibility Pilot}\label{sec:pilot}
+
+A computational pilot verified the end-to-end pipeline before the IRB-gated Phase~2. We sampled $N=\PilotN$ problems with a fixed seed from HumanEval~\cite{Chen2021HumanEval} (164 Python function-completion tasks) and produced \PilotSessions{} sessions through GPT-4o-mini (three CLEAR-grounded prompt levels $\times$ three pedagogical framings: algorithm explanation, complexity analysis, and problem solving). Prompt levels were instantiated through the RCIFENI-O framework (Appendix~\ref{sec:appendix-c}), so \emph{level} is a structural-completeness variable rather than a free-form verbal directive. An automatic GPT-4o-mini judge scored each response on the five AIOQ-R dimensions on a 1--5 Likert scale, producing a composite in the 5--25 range. A Friedman test across the three prompt levels, treating HumanEval problems as repeated blocks, yielded $\chi^2(\PilotFriedmanDF)=\PilotFriedmanChi$, $p=\PilotFriedmanP$, Kendall's $W=\PilotKendallW$.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.85\linewidth]{figures/pilot_bars}
+\caption{Pilot composite AIOQ-R (mean$\pm$SD across \PilotN{} HumanEval problems per cell), rated by a GPT-4o-mini judge, by CLEAR prompt level (basic, intermediate, advanced) and task framing. CUD colour-universal palette.}
+\label{fig:pilot-bars}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.72\linewidth]{figures/pilot_heatmap}
+\caption{Cell-mean heatmap of pilot composite AIOQ-R across the same nine conditions as Fig.~\ref{fig:pilot-bars}. The narrow observed range reflects LLM-as-judge ceiling inflation; a calibrated human panel in Phase~2 is expected to expand it.}
+\label{fig:pilot-heatmap}
+\end{figure}
+
+Per-cell composite means (basic / intermediate / advanced) were \PilotAlgoBasic{} / \PilotAlgoInt{} / \PilotAlgoAdv{} for algorithm explanation, \PilotCxBasic{} / \PilotCxInt{} / \PilotCxAdv{} for complexity analysis, and \PilotPsBasic{} / \PilotPsInt{} / \PilotPsAdv{} for problem solving. Contrary to the literature-anchored monotonic expectation $L3>L2>L1$, the pilot shows no such ordering on these compact HumanEval tasks: automatic scores cluster near the top of the scale and the RCIFENI-O-grounded L3 prompts do not outperform the bare L1 input. Two caveats apply. First, LLM-as-judge raters are known to inflate scores and compress between-level variance relative to calibrated human raters~\cite{Liu2023}, so Kendall's $W$ here is a \emph{floor} estimate of the effect size a human panel is expected to detect, not a substitute for the pre-registered partial $\eta^2\geq0.06$ target. Second, HumanEval tasks are compact single-function problems whose solutions fit in a single short response regardless of prompt structure, which limits the room for prompt engineering to help; richer open-ended learning tasks in Phase~2 are expected to widen level differences.
+
+\subsection{Phase~2 Hypotheses}\label{sec:phase2-hypo}
+
+Pilot signals inform, but do not supersede, the pre-registered hypotheses for the human-participant Phase~2.
 
 \textbf{H1---Prompt Quality Main Effect.} We expect a statistically significant monotonic increase in composite AIOQ-R scores across the three prompt levels: Level~3 (advanced) $>$ Level~2 (intermediate) $>$ Level~1 (basic). The anticipated effect size is partial $\eta^2 \geq 0.06$ (medium effect), grounded in the effect sizes reported by Sawalha et al.~\cite{Sawalha2024} ($d = 0.69$--$0.94$) and the 33\% performance gain documented by Kumar et al.~\cite{Kumar2025}. Among the five AIOQ-R dimensions, the largest gains from Level~1 to Level~3 are expected on \emph{Completeness} and \emph{Learning Value}, as advanced prompts with explicit context and CoT instructions should activate more comprehensive and pedagogically rich responses through the Reasoning Scaffolding mechanism~\cite{Wei2022}. \emph{Accuracy} improvements are anticipated to plateau between Level~2 and Level~3, since both intermediate and advanced prompts sufficiently reduce ambiguity to elicit factually correct responses.
 
 \textbf{H2---Platform Main Effect.} We hypothesize a statistically significant difference in composite AIOQ-R scores between GPT-4o and Claude Sonnet, though the direction is exploratory. Based on publicly available benchmark data, Claude Sonnet may exhibit advantages on multi-step reasoning tasks (due to its Constitutional AI design emphasis), while GPT-4o may perform better on coding-specific tasks such as debugging. This hypothesis serves as a preliminary cross-platform comparison that is currently absent from the literature.
 
 \textbf{H3---Interaction Effect.} We anticipate a significant Prompt Level $\times$ Platform interaction, manifesting as differential sensitivity to prompt quality improvement across task types. Specifically, Claude Sonnet is expected to show greater response quality gains from Level~1 to Level~3 on reasoning-intensive tasks (algorithm explanation, complexity analysis), while GPT-4o may demonstrate more consistent performance across prompt levels on code-generation tasks (debugging, problem-solving). This pattern, if confirmed, would provide evidence that the mechanisms through which prompt quality influences output are architecture-dependent.
-
-\begin{figure}[!t]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    width=11cm, height=6cm,
-    bar width=10pt,
-    ymin=5, ymax=27,
-    ylabel={Expected AIOQ-R composite (5--25)},
-    symbolic x coords={L1 Basic, L2 Intermediate, L3 Advanced},
-    xtick=data,
-    xlabel={Prompt quality level},
-    legend style={at={(0.02,0.98)}, anchor=north west, font=\footnotesize},
-    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.3cm,0.1cm);},
-    enlarge x limits=0.25,
-    ymajorgrids=true, grid style=dashed,
-    nodes near coords={\pgfmathprintnumber[fixed,precision=1]{\pgfplotspointmeta}},
-    nodes near coords style={font=\scriptsize},
-    error bars/y dir=both,
-    error bars/y explicit,
-]
-\addplot+[fill=blue!50, draw=blue!70,
-         every node near coord/.append style={yshift=-2pt, anchor=north, color=blue!60!black, font=\scriptsize}]
-  coordinates {
-  (L1 Basic, 12.5) +- (0, 1.4)
-  (L2 Intermediate, 18.0) +- (0, 1.2)
-  (L3 Advanced, 21.5) +- (0, 1.1)
-};
-\addplot+[fill=orange!60, draw=orange!80,
-         every node near coord/.append style={yshift=12pt, anchor=south, color=orange!70!black}]
-  coordinates {
-  (L1 Basic, 11.8) +- (0, 1.5)
-  (L2 Intermediate, 18.8) +- (0, 1.3)
-  (L3 Advanced, 22.8) +- (0, 1.1)
-};
-\legend{GPT-4o, Claude Sonnet}
-\end{axis}
-\end{tikzpicture}
-\caption{Anticipated composite AIOQ-R scores by prompt level and platform. Projections are schematic pre-registration exemplars, not empirical point estimates: baseline $L1 \approx 12.5$ is taken as the scale midpoint, and the $L1 \rightarrow L3$ gap of $\approx 9$ points is derived from a composite effect of $d \approx 1.5$ (two-level jump) scaled by pooled $\sigma \approx 3$ on the 5--25 AIOQ-R range, consistent with Sawalha et al.~\cite{Sawalha2024} ($d = 0.69$--$0.94$ single-step) and Kumar et al.~\cite{Kumar2025} (33\% gain). Error bars represent $\pm 1.5$ SEM pre-registration uncertainty bounds; empirical cell means will replace these exemplars after Phase~2 data collection.}
-\label{fig:expected}
-\end{figure}
-
-Figure~\ref{fig:expected} visualises the anticipated monotonic pattern. The projected L1$\rightarrow$L3 gap ($\Delta \approx 9$ composite points) corresponds to partial $\eta^2 \approx 0.10$, exceeding the H1 target threshold of 0.06.
 
 \textbf{Qualitative Expectations.} The semi-structured interviews are expected to reveal: (a) a general awareness among students that better prompts yield better responses, but limited knowledge of specific techniques; (b) a tension between perceived usefulness of AI and concerns about over-reliance; and (c) platform-specific preferences that may explain interaction patterns observed in the quantitative data. The Joint Display integration is expected to identify convergent patterns where high-scoring participants in Phase~2 also exhibited multi-turn critical engagement strategies in Phase~1.
 
@@ -392,29 +388,11 @@ We anticipate that the empirical results will confirm that prompt quality signif
 \textbf{Generative AI Usage:} GPT-4o and Claude Sonnet are the \emph{object of study} and are used solely as controlled experimental platforms; no generative AI was used to draft or substantively revise the manuscript beyond minor grammar suggestions, per the 2023 COPE/ICMJE/Springer AI-authorship guidance.
 \textbf{ORCID:} All three authors' ORCID iDs will be finalised in the camera-ready version.
 
-\InputIfFileExists{pilot-macros}{}{%
-  \newcommand{\PilotN}{TBD}%
-  \newcommand{\PilotSessions}{TBD}%
-  \newcommand{\PilotFriedmanChi}{TBD}%
-  \newcommand{\PilotFriedmanDF}{TBD}%
-  \newcommand{\PilotFriedmanP}{TBD}%
-  \newcommand{\PilotKendallW}{TBD}%
-  \newcommand{\PilotAlgoBasic}{TBD}%
-  \newcommand{\PilotAlgoInt}{TBD}%
-  \newcommand{\PilotAlgoAdv}{TBD}%
-  \newcommand{\PilotCxBasic}{TBD}%
-  \newcommand{\PilotCxInt}{TBD}%
-  \newcommand{\PilotCxAdv}{TBD}%
-  \newcommand{\PilotPsBasic}{TBD}%
-  \newcommand{\PilotPsInt}{TBD}%
-  \newcommand{\PilotPsAdv}{TBD}%
-}
-\input{appendix-B}
-\input{appendix-C}
-
 {\footnotesize
 \bibliographystyle{splncs04}
 \bibliography{references}
 }
+
+\input{appendix-C}
 
 \end{document}
