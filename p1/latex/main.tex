@@ -17,6 +17,14 @@
 \pgfplotsset{compat=1.18}
 \usepackage{hyperref}
 
+% Okabe-Ito Color Universal Design (CUD) palette — colourblind-safe.
+\definecolor{CUDOrange}{HTML}{E69F00}
+\definecolor{CUDSkyBlue}{HTML}{56B4E9}
+\definecolor{CUDBluishGreen}{HTML}{009E73}
+\definecolor{CUDBlue}{HTML}{0072B2}
+\definecolor{CUDVermilion}{HTML}{D55E00}
+\definecolor{CUDYellow}{HTML}{F0E442}
+
 \begin{document}
 
 \title{The Impact of Prompt Quality on Generative AI Response Quality: A Controlled Experiment with IT Students}
@@ -218,34 +226,48 @@ The data collection follows three phases over a 14-week semester:
 \centering
 \begin{tikzpicture}[
   every node/.style={font=\footnotesize},
-  cell/.style={rectangle, draw, minimum width=0.9cm, minimum height=0.55cm, align=center},
-  phase/.style={rectangle, draw, rounded corners=2pt, minimum width=2.8cm, minimum height=0.7cm, align=center, font=\small}
+  cell/.style={rectangle, draw=black!55, minimum width=0.9cm, minimum height=0.55cm, align=center, line width=0.4pt},
+  sbox/.style={cell, fill=CUDSkyBlue!12},
+  proc/.style={rectangle, rounded corners=2pt, draw=black!55, minimum width=1.4cm, minimum height=0.55cm, align=center, line width=0.4pt, font=\footnotesize},
+  gprompt/.style={proc, fill=CUDSkyBlue!30},
+  gplatform/.style={proc, fill=CUDBlue!25, minimum width=1.6cm},
+  gtask/.style={proc, fill=CUDBluishGreen!30},
+  phasebox/.style={rectangle, rounded corners=2pt, draw=black!55, minimum width=2.8cm, minimum height=0.8cm, align=center, line width=0.4pt, font=\small, fill=CUDOrange!22},
+  arr/.style={->, thick, >=Stealth, draw=CUDVermilion!85!black, shorten >=1pt, line width=0.55pt},
+  opsym/.style={font=\large\bfseries, text=black!70}
 ]
-\node[font=\small\bfseries] at (-3.2, 3.4) {(a) Latin Square $4\times4$};
+
+%% (a) Latin Square 4x4 -- CUDSkyBlue gradient left-to-right.
+\node[font=\small\bfseries] at (-3.88, 3.4) {(a) Latin Square $4\times4$};
 \foreach \i/\row in {1/{T1,T2,T3,T4}, 2/{T2,T3,T4,T1}, 3/{T3,T4,T1,T2}, 4/{T4,T1,T2,T3}} {
-  \node at (-6.2, {2.6-\i*0.6}) {G\i};
+  \node[sbox] at (-6.2, {2.6-\i*0.6}) {G\i};
   \foreach \j/\v [count=\jj from 0] in \row {
-    \node[cell, fill=blue!\the\numexpr10+\jj*10\relax] at ({-5.3+\jj*0.95}, {2.6-\i*0.6}) {\v};
+    \node[cell, fill=CUDSkyBlue!\the\numexpr15+\jj*12\relax] at ({-5.3+\jj*0.95}, {2.6-\i*0.6}) {\v};
   }
 }
 
+%% (b) Multiplicative design 3 x 2 x 3 = 18 with explicit operator symbols.
 \node[font=\small\bfseries] at (3.6, 3.4) {(b) $3\times2\times3 = 18$ sessions/participant};
-\foreach \x/\lbl in {0/Basic, 1.3/Inter, 2.6/Adv} {
-  \node[cell, fill=blue!30] at (\x+1.5, 2.5) {\lbl};
+\foreach \x/\lbl in {0/Basic, 1.6/Inter, 3.2/Adv} {
+  \node[gprompt] at (\x+1.9, 2.6) {\lbl};
 }
-\foreach \x/\lbl in {0/GPT-4o, 1.9/Claude} {
-  \node[cell, fill=orange!30, minimum width=1.3cm] at (\x+1.9, 1.6) {\lbl};
+\node[opsym] at (3.5, 1.9) {$\times$};
+\foreach \x/\lbl in {0/{GPT-4o}, 2.2/Claude} {
+  \node[gplatform] at (\x+2.6, 1.2) {\lbl};
 }
-\foreach \x/\lbl in {0/Algo, 1.3/Debug, 2.6/Cplx} {
-  \node[cell, fill=green!30] at (\x+1.5, 0.7) {\lbl};
+\node[opsym] at (3.5, 0.5) {$\times$};
+\foreach \x/\lbl in {0/Algo, 1.6/Debug, 3.2/Cplx} {
+  \node[gtask] at (\x+1.9, -0.2) {\lbl};
 }
-\node at (3.0, 0.0) {{\footnotesize $3 \times 2 \times 3 = 18$}};
+\node[opsym] at (3.5, -0.8) {$=$};
+\node[font=\small\bfseries] at (3.5, -1.35) {$\mathbf{18}$ sessions};
 
-\node[phase, fill=yellow!15] at (-4.5, -1.4) {Phase~1\\Wk~1--2: Baseline};
-\node[phase, fill=yellow!30] at (0.0, -1.4) {Phase~2\\Wk~6--9: Experiment};
-\node[phase, fill=yellow!50] at (4.5, -1.4) {Phase~3\\Wk~9--10: Interviews};
-\draw[->, thick] (-3.0, -1.4) -- (-1.5, -1.4);
-\draw[->, thick] (1.5, -1.4) -- (3.0, -1.4);
+%% Bottom timeline -- CUDOrange phases, CUDVermilion arrows.
+\node[phasebox] (ph1) at (-4.5, -2.6) {Phase~1\\Wk~1--2: Baseline};
+\node[phasebox] (ph2) at (0.0, -2.6) {Phase~2\\Wk~6--9: Experiment};
+\node[phasebox] (ph3) at (4.5, -2.6) {Phase~3\\Wk~9--10: Interviews};
+\draw[arr] (ph1.east) -- (ph2.west);
+\draw[arr] (ph2.east) -- (ph3.west);
 \end{tikzpicture}
 \caption{Experimental design. (a) Latin Square counterbalancing assigns distinct task sequences across 4 participant groups (T1--T4 denote task types). (b) 3 prompt levels $\times$ 2 platforms $\times$ 3 task types = 18 sessions per participant, distributed across three sittings separated by $\geq$48~hours. Bottom: 14-week mixed-methods timeline.}
 \label{fig:design}
