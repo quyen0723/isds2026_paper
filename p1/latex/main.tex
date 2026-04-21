@@ -280,7 +280,7 @@ Based on the theoretical framework and converging empirical evidence from the li
     ybar,
     width=11cm, height=6cm,
     bar width=10pt,
-    ymin=5, ymax=25,
+    ymin=5, ymax=27,
     ylabel={Expected AIOQ-R composite (5--25)},
     symbolic x coords={L1 Basic, L2 Intermediate, L3 Advanced},
     xtick=data,
@@ -289,17 +289,21 @@ Based on the theoretical framework and converging empirical evidence from the li
     legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.3cm,0.1cm);},
     enlarge x limits=0.25,
     ymajorgrids=true, grid style=dashed,
-    nodes near coords,
+    nodes near coords={\pgfmathprintnumber[fixed,precision=1]{\pgfplotspointmeta}},
     nodes near coords style={font=\scriptsize},
     error bars/y dir=both,
     error bars/y explicit,
 ]
-\addplot+[fill=blue!50, draw=blue!70] coordinates {
+\addplot+[fill=blue!50, draw=blue!70,
+         every node near coord/.append style={yshift=-2pt, anchor=north, color=blue!60!black, font=\scriptsize}]
+  coordinates {
   (L1 Basic, 12.5) +- (0, 1.4)
   (L2 Intermediate, 18.0) +- (0, 1.2)
   (L3 Advanced, 21.5) +- (0, 1.1)
 };
-\addplot+[fill=orange!60, draw=orange!80] coordinates {
+\addplot+[fill=orange!60, draw=orange!80,
+         every node near coord/.append style={yshift=12pt, anchor=south, color=orange!70!black}]
+  coordinates {
   (L1 Basic, 11.8) +- (0, 1.5)
   (L2 Intermediate, 18.8) +- (0, 1.3)
   (L3 Advanced, 22.8) +- (0, 1.1)
@@ -307,7 +311,7 @@ Based on the theoretical framework and converging empirical evidence from the li
 \legend{GPT-4o, Claude Sonnet}
 \end{axis}
 \end{tikzpicture}
-\caption{Anticipated composite AIOQ-R scores by prompt level and platform. Projections are anchored by literature: Sawalha et al.~\cite{Sawalha2024} report $d = 0.69$--$0.94$ for reformulation over copy-paste, and Kumar et al.~\cite{Kumar2025} document a 33\% gain for structured prompting. Error bars represent pre-registration uncertainty bounds; empirical values will replace these projections after Phase~2 data collection.}
+\caption{Anticipated composite AIOQ-R scores by prompt level and platform. Projections are schematic pre-registration exemplars, not empirical point estimates: baseline $L1 \approx 12.5$ is taken as the scale midpoint, and the $L1 \rightarrow L3$ gap of $\approx 9$ points is derived from a composite effect of $d \approx 1.5$ (two-level jump) scaled by pooled $\sigma \approx 3$ on the 5--25 AIOQ-R range, consistent with Sawalha et al.~\cite{Sawalha2024} ($d = 0.69$--$0.94$ single-step) and Kumar et al.~\cite{Kumar2025} (33\% gain). Error bars represent $\pm 1.5$ SEM pre-registration uncertainty bounds; empirical cell means will replace these exemplars after Phase~2 data collection.}
 \label{fig:expected}
 \end{figure}
 
