@@ -14,8 +14,16 @@ from pathlib import Path
 
 from src.analysis import summarize
 from src.data_prep import clean, load_raw
+from src.llm_client import ask as ask_gpt4o
+from src.llm_client_opencode import ask as ask_glm
 from src.pilot_run import run as run_pilot
 from src.visualization import make_figures
+
+PLATFORMS_SINGLE = [{"label": "gpt-4o-mini", "ask": ask_gpt4o}]
+PLATFORMS_DUAL = [
+    {"label": "gpt-4o-mini", "ask": ask_gpt4o},
+    {"label": "glm-5.1",     "ask": ask_glm},
+]
 
 
 HERE = Path(__file__).resolve().parent
@@ -32,11 +40,12 @@ def _analyze() -> None:
     make_figures(summary, str(HERE / "output"))
 
 
-def _pilot(n: int) -> None:
+def _pilot(n: int, platforms: list[dict]) -> None:
     summary = run_pilot(
         humaneval_path=str(RAW / "HumanEval.jsonl"),
         out_dir=str(PROCESSED),
         n_problems=n,
+        platforms=platforms,
     )
     print("pilot done:", summary)
 
@@ -45,7 +54,10 @@ def main(argv: list[str]) -> int:
     cmd = argv[1] if len(argv) > 1 else "analyze"
     if cmd == "pilot":
         n = int(argv[2]) if len(argv) > 2 else 10
-        _pilot(n)
+        _pilot(n, PLATFORMS_SINGLE)
+    elif cmd == "pilot-dual":
+        n = int(argv[2]) if len(argv) > 2 else 10
+        _pilot(n, PLATFORMS_DUAL)
     elif cmd == "analyze":
         _analyze()
     else:

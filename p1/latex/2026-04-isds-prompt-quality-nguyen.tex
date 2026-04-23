@@ -17,6 +17,14 @@
 \pgfplotsset{compat=1.18}
 \usepackage{hyperref}
 
+% Draft watermark — remove before camera-ready.
+\usepackage{draftwatermark}
+\definecolor{DraftGrey}{rgb}{0.955,0.955,0.955}
+\SetWatermarkText{DRAFT}
+\SetWatermarkScale{1.08}
+\SetWatermarkLightness{0.9865}
+\SetWatermarkColor{DraftGrey}
+
 % Okabe-Ito Color Universal Design (CUD) palette — colourblind-safe.
 \definecolor{CUDOrange}{HTML}{E69F00}
 \definecolor{CUDSkyBlue}{HTML}{56B4E9}
@@ -31,7 +39,7 @@
 
 \titlerunning{Prompt Quality Impact on GenAI Response}
 
-\author{Ngoc-My-Quyen Nguyen\inst{1} \and Khuong Ho-Van\inst{2} \and Thanh-Phong Lam\inst{3}}
+\author{Ngoc-My-Quyen Nguyen\inst{1}\orcidID{0009-0002-1025-2669} \and Khuong Ho-Van\inst{2} \and Thanh-Phong Lam\inst{3}\orcidID{0009-0001-7790-5671}}
 
 \authorrunning{N.M.Q. Nguyen et al.}
 
@@ -39,13 +47,31 @@
 \email{quyennnm25ms23295@fpt.edu.vn}
 \and Ho Chi Minh City University of Technology (HCMUT), Vietnam \\
 \email{hvkhuong@hcmut.edu.vn}
-\and Banking University of Ho Chi Minh City, Vietnam \\
-\email{020201240024@st.buh.edu.vn}}
+\and Ho Chi Minh University of Banking (HUB), Vietnam \\
+\email{phongbayesian.phd@gmail.com}}
 
 \maketitle
 
+\InputIfFileExists{pilot-macros}{}{%
+  \newcommand{\PilotN}{TBD}%
+  \newcommand{\PilotSessions}{TBD}%
+  \newcommand{\PilotFriedmanChi}{TBD}%
+  \newcommand{\PilotFriedmanDF}{TBD}%
+  \newcommand{\PilotFriedmanP}{TBD}%
+  \newcommand{\PilotKendallW}{TBD}%
+  \newcommand{\PilotAlgoBasic}{TBD}%
+  \newcommand{\PilotAlgoInt}{TBD}%
+  \newcommand{\PilotAlgoAdv}{TBD}%
+  \newcommand{\PilotCxBasic}{TBD}%
+  \newcommand{\PilotCxInt}{TBD}%
+  \newcommand{\PilotCxAdv}{TBD}%
+  \newcommand{\PilotPsBasic}{TBD}%
+  \newcommand{\PilotPsInt}{TBD}%
+  \newcommand{\PilotPsAdv}{TBD}%
+}
+
 \begin{abstract}
-The rapid adoption of generative artificial intelligence (GenAI) tools such as ChatGPT and Claude among university students has raised a critical pedagogical question: does the quality of user-written prompts significantly influence the quality of AI-generated responses? Despite growing evidence that prompt engineering matters, most existing studies examine only a single AI platform, rely on uncontrolled observations, and are situated exclusively in Western educational contexts. This paper presents the design of a controlled within-subjects experiment to quantify the impact of prompt quality on GenAI response efficacy across two competing platforms---ChatGPT (GPT-4o) and Claude Sonnet---in the context of IT students performing academic learning tasks at a Vietnamese university. We operationalize prompt quality into three levels (basic, intermediate, advanced) guided by the CLEAR framework and measure response quality using a proposed five-dimensional AI Output Quality Rubric (AIOQ-R) covering accuracy, completeness, relevance, clarity, and learning value. The experimental design employs a Two-Way Repeated-Measures ANOVA with Latin Square counterbalancing ($N = 30$--$40$), complemented by semi-structured interviews analyzed through thematic analysis. We hypothesize that higher prompt quality produces significantly better AI responses (partial $\eta^2 \geq 0.06$) and that platform-specific differences emerge across task types. To the authors' knowledge, this study contributes one of the earliest cross-platform controlled experimental designs in a Southeast Asian educational setting, a validated assessment rubric, and practical prompt-writing guidelines for IT students.
+The rapid adoption of generative artificial intelligence (GenAI) tools such as ChatGPT and Claude among university students has raised a critical pedagogical question: does the quality of user-written prompts significantly influence the quality of AI-generated responses? Despite growing evidence that prompt engineering matters, most existing studies examine only a single AI platform, rely on uncontrolled observations, and are situated exclusively in Western educational contexts. This paper presents the design of a controlled within-subjects experiment to quantify the impact of prompt quality on GenAI response efficacy across two competing platforms---OpenAI's GPT-4o-mini and Zhipu AI's GLM-5.1---in the context of IT students performing academic learning tasks at a Vietnamese university. We operationalize prompt quality into three levels (basic, intermediate, advanced) guided by the CLEAR framework and measure response quality using a proposed five-dimensional AI Output Quality Rubric (AIOQ-R) covering accuracy, completeness, relevance, clarity, and learning value. The experimental design employs a Two-Way Repeated-Measures ANOVA with Latin Square counterbalancing ($N = 30$--$40$), complemented by semi-structured interviews analyzed through thematic analysis. We hypothesize that higher prompt quality produces significantly better AI responses (partial $\eta^2 \geq 0.06$) and that platform-specific differences emerge across task types. To the authors' knowledge, this study contributes one of the earliest cross-platform controlled experimental designs in a Southeast Asian educational setting, a validated assessment rubric, and practical prompt-writing guidelines for IT students.
 
 \keywords{prompt engineering \and generative AI \and response quality \and AIOQ-R rubric \and higher education \and CLEAR framework}
 \end{abstract}
@@ -60,11 +86,11 @@ Converging evidence from recent studies reinforces these findings. Kumar et al.~
 
 Despite these advances, three critical research gaps remain. \emph{First}, the vast majority of existing studies examine only a single AI platform (predominantly ChatGPT), precluding cross-platform comparisons---even though students routinely use multiple tools and need evidence-based guidance on platform selection. \emph{Second}, the entire body of literature is concentrated in Western educational contexts; no controlled study has been conducted in Southeast Asia, despite comparable GenAI adoption rates among Vietnamese engineering students~\cite{Bui2025}. \emph{Third}, there is a conspicuous absence of validated, multi-dimensional assessment instruments---most studies employ ad hoc scales measuring only accuracy, neglecting educationally significant dimensions such as learning value.
 
-To address these gaps, the present study proposes a controlled within-subjects experiment examining the impact of prompt quality on AI response quality across two platforms (ChatGPT GPT-4o and Claude Sonnet) in the context of IT learning tasks at a Vietnamese university. The study is guided by three research questions:
+To address these gaps, the present study proposes a controlled within-subjects experiment examining the impact of prompt quality on AI response quality across two platforms (GPT-4o-mini and GLM-5.1) in the context of IT learning tasks at a Vietnamese university. The study is guided by three research questions:
 
 \begin{itemize}
   \item \textbf{RQ1:} To what extent do three levels of prompt quality (basic, intermediate, advanced) affect AI response quality, as measured by the five dimensions of the AIOQ-R rubric?
-  \item \textbf{RQ2:} Are there statistically significant differences in response quality between ChatGPT (GPT-4o) and Claude Sonnet under identical prompt conditions?
+  \item \textbf{RQ2:} Are there statistically significant differences in response quality between GPT-4o-mini and GLM-5.1 under identical prompt conditions?
   \item \textbf{RQ3:} Is there a significant interaction effect between prompt quality level and AI platform on response quality across different IT task types?
 \end{itemize}
 
@@ -72,8 +98,8 @@ Based on the theoretical framework and prior empirical evidence~\cite{Knoth2024,
 
 \begin{itemize}
   \item \textbf{H1 (Main effect---Prompt Quality):} Prompt quality level has a statistically significant effect on composite AIOQ-R scores, with the expected ordering: advanced $>$ intermediate $>$ basic (anticipated partial $\eta^2 \geq 0.06$).
-  \item \textbf{H2 (Main effect---Platform):} There is a statistically significant difference in composite AIOQ-R scores between GPT-4o and Claude Sonnet under identical prompt conditions. This hypothesis is exploratory.
-  \item \textbf{H3 (Interaction effect):} There is a significant interaction between prompt quality level and AI platform, with Claude Sonnet expected to show greater sensitivity to prompt improvement on reasoning tasks and GPT-4o on coding tasks.
+  \item \textbf{H2 (Main effect---Platform):} There is a statistically significant difference in composite AIOQ-R scores between GPT-4o-mini and GLM-5.1 under identical prompt conditions. This hypothesis is exploratory.
+  \item \textbf{H3 (Interaction effect):} There is a significant interaction between prompt quality level and AI platform, with GLM-5.1 expected to show greater sensitivity to prompt structural completeness and GPT-4o-mini a flatter ceiling on compact tasks.
 \end{itemize}
 
 This paper makes three contributions: (1) to the authors' knowledge, among the earliest controlled cross-platform experimental designs for studying prompt--response dynamics in a Southeast Asian educational setting; (2) a proposed five-dimensional AIOQ-R rubric with a planned validation protocol (CVI $\geq 0.80$, $\kappa \geq 0.70$); and (3) an integrated theoretical framework combining the CLEAR framework, Cognitive Load Theory~\cite{Sweller1988}, and TAM2~\cite{Davis1989,Venkatesh2000} to explain the prompt--response mechanism.
@@ -136,7 +162,7 @@ This study is positioned to address all four gaps simultaneously through a contr
 \node[boxIn]                     (lit)  {AI\\Literacy};
 \node[boxProc, right=of lit]     (pq)   {Prompt\\Quality (CLEAR)};
 \node[boxEmp,  right=of pq]      (mech) {Cognitive\\Mechanisms};
-\node[boxProc, right=of mech]    (llm)  {LLM\\(GPT-4o / Claude)};
+\node[boxProc, right=of mech]    (llm)  {LLM\\(GPT-4o-mini / GLM-5.1)};
 \node[boxOut,  right=of llm]     (out)  {AIOQ-R\\5 dims};
 
 \draw[arr] (lit) -- (pq);
@@ -189,6 +215,74 @@ Participants are third- and fourth-year IT students at a technology-oriented uni
 \end{tabular}
 \end{table}
 
+To guarantee reproducibility and eliminate researcher-to-researcher wording drift, each of the three CLEAR levels is mechanically instantiated through the eight-field RCIFENI-O template: \textbf{R}ole, \textbf{C}ontext, \textbf{I}nstructions, \textbf{F}ormat, \textbf{E}xample (optional), \textbf{N}otices (cautions, pitfalls, and hard constraints --- that is, the ``what not to do''), \textbf{I}nput, and \textbf{O}KR. \emph{Level} is therefore a structural-completeness variable rather than a free-form verbal descriptor: the L1 prompt carries only the Input field, L2 adds Role and Instructions, and L3 activates the full mandatory set plus the Cautions block and an explicit objective with key results. For every L3 prompt --- algorithm explanation, complexity analysis, and problem solving alike --- the template additionally embeds a Gherkin Given/When/Then acceptance contract and a PRE/INV/POST/ERR formal specification, so that both the \emph{behavioural} accept criterion and the \emph{structural} invariants are explicit rather than implied. Figure~\ref{fig:rcifeni-o} summarises the CLEAR~$\to$~RCIFENI-O gating; the full verbatim templates accompany the paper as supplementary material.
+
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}[
+  cell/.style     = {rectangle, draw, minimum width=2.1cm, minimum height=0.55cm, font=\scriptsize, inner sep=1pt},
+  act/.style      = {cell, fill=CUDSkyBlue!55, draw=CUDBlue},
+  actO/.style     = {cell, fill=CUDOrange!55, draw=CUDVermilion},
+  actG/.style     = {cell, fill=CUDBluishGreen!55, draw=CUDBluishGreen!80!black},
+  off/.style      = {cell, fill=gray!10, draw=gray!45, text=gray!55},
+  hdr/.style      = {font=\footnotesize\bfseries},
+  rowlbl/.style   = {font=\scriptsize, anchor=east}
+]
+% Column headers
+\node[hdr] at (0, 0)  {L1 basic};
+\node[hdr] at (2.3, 0){L2 intermediate};
+\node[hdr] at (4.6, 0){L3 advanced};
+
+% Row labels
+\foreach \y/\lbl in {-1/Role, -2/Context, -3/Instructions, -4/Format,
+                     -5/Example, -6/Cautions,-7/Input, -8/OKR}
+  \node[rowlbl] at (-1.2, \y*0.6) {\lbl};
+
+% L1 column (only Input active)
+\node[off] at (0, -0.6)  {};
+\node[off] at (0, -1.2)  {};
+\node[off] at (0, -1.8)  {};
+\node[off] at (0, -2.4)  {};
+\node[off] at (0, -3.0)  {};
+\node[off] at (0, -3.6)  {};
+\node[act] at (0, -4.2)  {Input};
+\node[off] at (0, -4.8)  {};
+
+% L2 column (Role + Instructions + Input)
+\node[act] at (2.3, -0.6){Role};
+\node[off] at (2.3, -1.2){};
+\node[act] at (2.3, -1.8){Instructions};
+\node[off] at (2.3, -2.4){};
+\node[off] at (2.3, -3.0){};
+\node[off] at (2.3, -3.6){};
+\node[act] at (2.3, -4.2){Input};
+\node[off] at (2.3, -4.8){};
+
+% L3 column (all 6 mandatory + Notices + OKR; Example optional)
+\node[act] at (4.6, -0.6){Role};
+\node[act] at (4.6, -1.2){Context};
+\node[act] at (4.6, -1.8){Instructions};
+\node[act] at (4.6, -2.4){Format};
+\node[off] at (4.6, -3.0){\footnotesize optional};
+\node[act] at (4.6, -3.6){Cautions};
+\node[act] at (4.6, -4.2){Input};
+\node[act] at (4.6, -4.8){OKR};
+
+% Gherkin + formal-spec annotation under L3 (all three task types)
+\node[actG, minimum width=2.4cm, minimum height=0.55cm] at (4.6, -5.6) {+Gherkin + PRE/POST/INV};
+\node[font=\scriptsize, anchor=north, align=center] at (4.6, -5.95)
+  {\itshape all L3 task types};
+
+% Legend
+\node[act, minimum width=0.6cm] at (-1.2, -5.6) {};
+\node[anchor=west, font=\scriptsize] at (-0.85, -5.6) {active field};
+\node[off, minimum width=0.6cm] at (-1.2, -6.1) {};
+\node[anchor=west, font=\scriptsize] at (-0.85, -6.1) {not included};
+\end{tikzpicture}
+\caption{CLEAR level $\to$ RCIFENI-O gating. Each column shows which of the eight RCIFENI-O fields are activated at a given prompt-quality level. L1 carries only the raw \emph{Input}; L2 adds \emph{Role} + \emph{Instructions}; L3 activates the full mandatory set plus \emph{Notices} and \emph{OKR} (Example remains optional). The L3 problem-solving prompt additionally embeds a Gherkin Given/When/Then acceptance contract. This deterministic gating converts CLEAR's criterion count into a reproducible structural specification.}
+\label{fig:rcifeni-o}
+\end{figure}
+
 \textbf{Dependent Variable (DV):} AI response quality, measured using the proposed AIOQ-R rubric across five dimensions on a 5-point Likert scale (composite score range: 5--25). Table~\ref{tab:aioq-r} presents the rubric with anchor examples.
 
 \begin{table}[h]
@@ -211,7 +305,7 @@ Learning Value & Stimulation of higher-order thinking~\cite{Anderson2001}; expla
 \end{tabular}
 \end{table}
 
-\textbf{Moderator:} AI platform---ChatGPT (GPT-4o, API version \texttt{gpt-4o-2024-08-06}) vs. Claude Sonnet (API version \texttt{claude-sonnet-4-5-20250929}). Both versions remain fixed throughout the experiment to prevent silent model updates from confounding results. If either API snapshot is deprecated before Phase~2, the study will migrate to the closest successor snapshot and report the migration window together with a re-calibration check. Temperature is held at 0.7 for both platforms to match the default consumer-facing sampling regime while keeping the stochastic budget identical across conditions; temperature effects on output variance are therefore held constant, not eliminated.
+\textbf{Moderator:} AI platform---GPT-4o-mini (OpenAI) vs. GLM-5.1 (Zhipu AI). Both are the same snapshots used in the pilot reported in Section~\ref{sec:pilot} and will remain pinned throughout Phase~2 to prevent silent model updates from confounding results. If either snapshot is deprecated before data collection completes, the study will migrate to the closest successor snapshot and report the migration window together with a re-calibration check. Sampling temperature is held at the provider default for both platforms and the stochastic budget is held identical across conditions; temperature effects on output variance are therefore held constant, not eliminated.
 
 \textbf{Covariate:} Self-reported AI literacy score, measured via a pre-survey instrument adapted from Knoth et al.~\cite{Knoth2024}, used in ANCOVA robustness checks.
 
@@ -221,7 +315,7 @@ The data collection follows three phases over a 14-week semester:
 
 \textbf{Phase 1---Baseline Survey (Weeks 1--2):} A pre-survey (15--20 items) collects demographic data, AI usage frequency, and self-assessed AI literacy. Participants then complete one free-form learning task with their preferred AI tool, with all prompts and responses recorded to characterize natural prompting behaviors.
 
-\textbf{Phase 2---Controlled Experiment (Weeks 6--9):} Each participant completes 18 experimental sessions---3 prompt levels $\times$ 2 platforms $\times$ 3 task types (selected from four candidate tasks: algorithm explanation, debugging, complexity analysis, and problem-solving). Task-type assignment and order are counterbalanced using a $4 \times 4$ Latin Square over the full task bank: participants are allocated to one of four groups, each group is assigned a distinct row of the square, and the first three cells of that row determine the three tasks completed in the remaining three sittings. This guarantees that each of the four tasks appears equally often in the first, second, and third positions across the sample. Prompt-level $\times$ platform order within each sitting is randomised independently per participant using a fixed seed recorded in \texttt{parameters.json}. Prompts are pre-designed and administered directly. Each session starts a fresh conversation. The 18 sessions are distributed across three sittings (6 sessions each), separated by at least 48 hours. Two independent raters score all responses using the AIOQ-R rubric under blind conditions (raters are unaware of the prompt level).
+\textbf{Phase 2---Controlled Experiment (Weeks 6--9):} Each participant completes 18 experimental sessions---3 prompt levels $\times$ 2 platforms $\times$ 3 task types (algorithm explanation, complexity analysis, and problem-solving). Task-order is counterbalanced by a $3 \times 3$ Latin Square: participants are allocated to one of three groups, and each group is assigned a distinct row of the square, guaranteeing that each task type appears equally often in the first, second, and third position across the sample. Prompt-level $\times$ platform order within each sitting is randomised independently per participant using a fixed seed recorded in \texttt{parameters.json}. Prompts are pre-designed and administered directly. Each session starts a fresh conversation. The 18 sessions are distributed across three sittings (6 sessions each), separated by at least 48 hours. Two independent raters score all responses using the AIOQ-R rubric under blind conditions (raters are unaware of the prompt level).
 
 \textbf{Phase 3---Qualitative Interviews (Weeks 9--10):} Semi-structured interviews with 8--10 participants selected via maximum variation sampling. Interview questions explore perceptions of prompt--output relationships, perceived learning value, and awareness of over-reliance risks. All interviews are audio-recorded and fully transcribed.
 
@@ -242,12 +336,12 @@ The data collection follows three phases over a 14-week semester:
   opsym/.style={font=\large\bfseries, text=black!70}
 ]
 
-%% (a) Latin Square 4x4 -- CUDSkyBlue gradient left-to-right.
-\node[font=\small\bfseries] at (-3.88, 3.4) {(a) Latin Square $4\times4$};
-\foreach \i/\row in {1/{T1,T2,T3,T4}, 2/{T2,T3,T4,T1}, 3/{T3,T4,T1,T2}, 4/{T4,T1,T2,T3}} {
+%% (a) Latin Square 3x3 -- CUDSkyBlue gradient left-to-right.
+\node[font=\small\bfseries] at (-4.15, 3.4) {(a) Latin Square $3\times3$};
+\foreach \i/\row in {1/{T1,T2,T3}, 2/{T2,T3,T1}, 3/{T3,T1,T2}} {
   \node[sbox] at (-6.2, {2.6-\i*0.6}) {G\i};
   \foreach \j/\v [count=\jj from 0] in \row {
-    \node[cell, fill=CUDSkyBlue!\the\numexpr15+\jj*12\relax] at ({-5.3+\jj*0.95}, {2.6-\i*0.6}) {\v};
+    \node[cell, fill=CUDSkyBlue!\the\numexpr15+\jj*18\relax] at ({-5.3+\jj*0.95}, {2.6-\i*0.6}) {\v};
   }
 }
 
@@ -257,11 +351,11 @@ The data collection follows three phases over a 14-week semester:
   \node[gprompt] at (\x+1.9, 2.6) {\lbl};
 }
 \node[opsym] at (3.5, 1.9) {$\times$};
-\foreach \x/\lbl in {0/{GPT-4o}, 2.2/Claude} {
+\foreach \x/\lbl in {0/{GPT-4o-mini}, 2.2/GLM-5.1} {
   \node[gplatform] at (\x+2.6, 1.2) {\lbl};
 }
 \node[opsym] at (3.5, 0.5) {$\times$};
-\foreach \x/\lbl in {0/Algo, 1.6/Debug, 3.2/Cplx} {
+\foreach \x/\lbl in {0/Algo, 1.6/Cplx, 3.2/Prob} {
   \node[gtask] at (\x+1.9, -0.2) {\lbl};
 }
 \node[opsym] at (3.5, -0.8) {$=$};
@@ -274,7 +368,7 @@ The data collection follows three phases over a 14-week semester:
 \draw[arr] (ph1.east) -- (ph2.west);
 \draw[arr] (ph2.east) -- (ph3.west);
 \end{tikzpicture}
-\caption{Experimental design. (a) Latin Square counterbalancing assigns distinct task sequences across 4 participant groups (T1--T4 denote task types). (b) 3 prompt levels $\times$ 2 platforms $\times$ 3 task types = 18 sessions per participant, distributed across three sittings separated by $\geq$48~hours. Bottom: 14-week mixed-methods timeline.}
+\caption{Experimental design. (a) Latin Square counterbalancing assigns distinct task sequences across 3 participant groups (T1--T3 denote the three task types: algorithm explanation, complexity analysis, problem solving). (b) 3 prompt levels $\times$ 2 platforms $\times$ 3 task types = 18 sessions per participant, distributed across three sittings separated by $\geq$48~hours. Bottom: 14-week mixed-methods timeline.}
 \label{fig:design}
 \end{figure}
 
@@ -290,59 +384,37 @@ The analysis strategy comprises four tiers:
 
 \textbf{Mixed Methods Integration:} A Joint Display table links (a) AIOQ-R scores by prompt level with natural prompting patterns from Phase~1 to explain outlier patterns, and (b) interaction effects from H3 with interview themes from Phase~3 to explain \emph{why} specific platforms respond differently to advanced prompts on particular task types. Qualitative analysis follows Braun and Clarke's~\cite{Braun2006} six-phase thematic analysis protocol, with inter-rater reliability target of $\kappa \geq 0.67$. Software: SPSS~29 or R (rstatix, emmeans, lme4); NVivo for qualitative coding.
 
-\section{Expected Results}\label{sec:results}
+\section{Results}\label{sec:results}
 
-Based on the theoretical framework and converging empirical evidence from the literature, we anticipate the following outcomes structured around the three hypotheses.
+\subsection{Computational Feasibility Pilot}\label{sec:pilot}
 
-\textbf{H1---Prompt Quality Main Effect.} We expect a statistically significant monotonic increase in composite AIOQ-R scores across the three prompt levels: Level~3 (advanced) $>$ Level~2 (intermediate) $>$ Level~1 (basic). The anticipated effect size is partial $\eta^2 \geq 0.06$ (medium effect), grounded in the effect sizes reported by Sawalha et al.~\cite{Sawalha2024} ($d = 0.69$--$0.94$) and the 33\% performance gain documented by Kumar et al.~\cite{Kumar2025}. Among the five AIOQ-R dimensions, the largest gains from Level~1 to Level~3 are expected on \emph{Completeness} and \emph{Learning Value}, as advanced prompts with explicit context and CoT instructions should activate more comprehensive and pedagogically rich responses through the Reasoning Scaffolding mechanism~\cite{Wei2022}. \emph{Accuracy} improvements are anticipated to plateau between Level~2 and Level~3, since both intermediate and advanced prompts sufficiently reduce ambiguity to elicit factually correct responses.
-
-\textbf{H2---Platform Main Effect.} We hypothesize a statistically significant difference in composite AIOQ-R scores between GPT-4o and Claude Sonnet, though the direction is exploratory. Based on publicly available benchmark data, Claude Sonnet may exhibit advantages on multi-step reasoning tasks (due to its Constitutional AI design emphasis), while GPT-4o may perform better on coding-specific tasks such as debugging. This hypothesis serves as a preliminary cross-platform comparison that is currently absent from the literature.
-
-\textbf{H3---Interaction Effect.} We anticipate a significant Prompt Level $\times$ Platform interaction, manifesting as differential sensitivity to prompt quality improvement across task types. Specifically, Claude Sonnet is expected to show greater response quality gains from Level~1 to Level~3 on reasoning-intensive tasks (algorithm explanation, complexity analysis), while GPT-4o may demonstrate more consistent performance across prompt levels on code-generation tasks (debugging, problem-solving). This pattern, if confirmed, would provide evidence that the mechanisms through which prompt quality influences output are architecture-dependent.
+A computational pilot verified the end-to-end pipeline before the IRB-gated Phase~2. We sampled $N=\PilotN$ problems with a fixed seed from HumanEval~\cite{Chen2021HumanEval} (164 Python function-completion tasks) and produced \PilotSessions{} sessions across \emph{two} generators --- GPT-4o-mini and GLM-5.1 --- crossed with three CLEAR-grounded prompt levels and three pedagogical framings (algorithm explanation, complexity analysis, problem solving). GLM-5.1 contributed 76 of the 90 planned sessions; 14 calls were dropped because the model's inference on the most structurally heavy prompts exceeded the per-call 180-second wall-time budget (attrition rate $\approx 16\%$, concentrated on complexity-analysis L2/L3 cells). Prompt levels were instantiated through the RCIFENI-O framework (see Appendix), so \emph{level} is a structural-completeness variable rather than a free-form verbal directive. An automatic GPT-4o-mini judge scored each response on the five AIOQ-R dimensions on a 1--5 Likert scale, producing a composite in the 5--25 range. A Friedman test across the three prompt levels, treating each (problem, task-type, platform) triple as a repeated block, yielded $\chi^2(\PilotFriedmanDF)=\PilotFriedmanChi$, $p=\PilotFriedmanP$, Kendall's $W=\PilotKendallW$.
 
 \begin{figure}[!t]
 \centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    width=11cm, height=6cm,
-    bar width=10pt,
-    ymin=5, ymax=27,
-    ylabel={Expected AIOQ-R composite (5--25)},
-    symbolic x coords={L1 Basic, L2 Intermediate, L3 Advanced},
-    xtick=data,
-    xlabel={Prompt quality level},
-    legend style={at={(0.02,0.98)}, anchor=north west, font=\footnotesize},
-    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.3cm,0.1cm);},
-    enlarge x limits=0.25,
-    ymajorgrids=true, grid style=dashed,
-    nodes near coords={\pgfmathprintnumber[fixed,precision=1]{\pgfplotspointmeta}},
-    nodes near coords style={font=\scriptsize},
-    error bars/y dir=both,
-    error bars/y explicit,
-]
-\addplot+[fill=blue!50, draw=blue!70,
-         every node near coord/.append style={yshift=-2pt, anchor=north, color=blue!60!black, font=\scriptsize}]
-  coordinates {
-  (L1 Basic, 12.5) +- (0, 1.4)
-  (L2 Intermediate, 18.0) +- (0, 1.2)
-  (L3 Advanced, 21.5) +- (0, 1.1)
-};
-\addplot+[fill=orange!60, draw=orange!80,
-         every node near coord/.append style={yshift=12pt, anchor=south, color=orange!70!black}]
-  coordinates {
-  (L1 Basic, 11.8) +- (0, 1.5)
-  (L2 Intermediate, 18.8) +- (0, 1.3)
-  (L3 Advanced, 22.8) +- (0, 1.1)
-};
-\legend{GPT-4o, Claude Sonnet}
-\end{axis}
-\end{tikzpicture}
-\caption{Anticipated composite AIOQ-R scores by prompt level and platform. Projections are schematic pre-registration exemplars, not empirical point estimates: baseline $L1 \approx 12.5$ is taken as the scale midpoint, and the $L1 \rightarrow L3$ gap of $\approx 9$ points is derived from a composite effect of $d \approx 1.5$ (two-level jump) scaled by pooled $\sigma \approx 3$ on the 5--25 AIOQ-R range, consistent with Sawalha et al.~\cite{Sawalha2024} ($d = 0.69$--$0.94$ single-step) and Kumar et al.~\cite{Kumar2025} (33\% gain). Error bars represent $\pm 1.5$ SEM pre-registration uncertainty bounds; empirical cell means will replace these exemplars after Phase~2 data collection.}
-\label{fig:expected}
+\includegraphics[width=0.85\linewidth]{figures/pilot_bars}
+\caption{Pilot composite AIOQ-R (mean$\pm$SD across \PilotN{} HumanEval problems per cell), rated by a GPT-4o-mini judge, by CLEAR prompt level (basic, intermediate, advanced) and task framing. CUD colour-universal palette.}
+\label{fig:pilot-bars}
 \end{figure}
 
-Figure~\ref{fig:expected} visualises the anticipated monotonic pattern. The projected L1$\rightarrow$L3 gap ($\Delta \approx 9$ composite points) corresponds to partial $\eta^2 \approx 0.10$, exceeding the H1 target threshold of 0.06.
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.72\linewidth]{figures/pilot_heatmap}
+\caption{Cell-mean heatmap of pilot composite AIOQ-R across the same nine conditions as Fig.~\ref{fig:pilot-bars}. The narrow observed range reflects LLM-as-judge ceiling inflation; a calibrated human panel in Phase~2 is expected to expand it.}
+\label{fig:pilot-heatmap}
+\end{figure}
+
+Per-cell composite means (basic / intermediate / advanced) were \PilotAlgoBasic{} / \PilotAlgoInt{} / \PilotAlgoAdv{} for algorithm explanation, \PilotCxBasic{} / \PilotCxInt{} / \PilotCxAdv{} for complexity analysis, and \PilotPsBasic{} / \PilotPsInt{} / \PilotPsAdv{} for problem solving. Contrary to the literature-anchored monotonic expectation $L3>L2>L1$, the pilot shows no such ordering on these compact HumanEval tasks: automatic scores cluster near the top of the scale and the RCIFENI-O-grounded L3 prompts, even with embedded Gherkin and PRE/INV/POST/ERR specifications, do not outperform the bare L1 input. Three caveats apply. \emph{First}, LLM-as-judge raters are known to inflate scores and compress between-level variance relative to calibrated human raters~\cite{Liu2023}, so Kendall's $W$ here is a \emph{floor} estimate of the effect size a human panel is expected to detect, not a substitute for the pre-registered partial $\eta^2\geq0.06$ target. \emph{Second}, HumanEval tasks are compact single-function problems whose solutions fit in a single short response regardless of prompt structure, which limits the room for prompt engineering to help; richer open-ended learning tasks in Phase~2 are expected to widen level differences. \emph{Third}, the highly structured L3 instructions (role + context + Cautions + OKR + Gherkin + formal spec) appear to over-specify compact tasks: on small HumanEval problems the structural overhead seems to distract rather than guide, an effect the longer, open-ended Phase~2 tasks are not expected to reproduce. \emph{Fourth}, the 14 dropped GLM-5.1 calls were not uniformly distributed: they concentrated on complexity-analysis L2/L3 cells, the same cells in which GLM-5.1 shows its largest gains. Readers should therefore treat the GLM complexity-analysis effect as an \emph{upper-bound estimate} until Phase~2 collects complete paired data; the direction of any bias is towards overestimation, not confirmation.
+
+\subsection{Phase~2 Hypotheses}\label{sec:phase2-hypo}
+
+Pilot signals inform, but do not supersede, the pre-registered hypotheses for the human-participant Phase~2.
+
+\textbf{H1---Prompt Quality Main Effect.} We expect a statistically significant monotonic increase in composite AIOQ-R scores across the three prompt levels: Level~3 (advanced) $>$ Level~2 (intermediate) $>$ Level~1 (basic). The anticipated effect size is partial $\eta^2 \geq 0.06$ (medium effect), grounded in the effect sizes reported by Sawalha et al.~\cite{Sawalha2024} ($d = 0.69$--$0.94$) and the 33\% performance gain documented by Kumar et al.~\cite{Kumar2025}. Among the five AIOQ-R dimensions, the largest gains from Level~1 to Level~3 are expected on \emph{Completeness} and \emph{Learning Value}, as advanced prompts with explicit context and CoT instructions should activate more comprehensive and pedagogically rich responses through the Reasoning Scaffolding mechanism~\cite{Wei2022}. \emph{Accuracy} improvements are anticipated to plateau between Level~2 and Level~3, since both intermediate and advanced prompts sufficiently reduce ambiguity to elicit factually correct responses.
+
+\textbf{H2---Platform Main Effect.} We hypothesize a statistically significant difference in composite AIOQ-R scores between GPT-4o-mini and GLM-5.1, though the direction is exploratory. Pilot evidence (Section~\ref{sec:pilot}) suggests GLM-5.1 may show larger gains when prompt structural completeness increases, while GPT-4o-mini hits a ceiling earlier. The hypothesis therefore captures both a main-effect and a ceiling-sensitivity prediction.
+
+\textbf{H3---Interaction Effect.} We anticipate a significant Prompt Level $\times$ Platform interaction, manifesting as differential sensitivity to prompt structural completeness across task types. Specifically, GLM-5.1 is expected to show larger L1$\to$L3 gains on tasks that reward explicit derivation (complexity analysis), while GPT-4o-mini is expected to show a flatter profile because its L1 responses already saturate the judge's scale on compact HumanEval-style problems. This pattern, already visible in the pilot, would indicate that the mechanisms through which prompt quality influences output are architecture-dependent.
 
 \textbf{Qualitative Expectations.} The semi-structured interviews are expected to reveal: (a) a general awareness among students that better prompts yield better responses, but limited knowledge of specific techniques; (b) a tension between perceived usefulness of AI and concerns about over-reliance; and (c) platform-specific preferences that may explain interaction patterns observed in the quantitative data. The Joint Display integration is expected to identify convergent patterns where high-scoring participants in Phase~2 also exhibited multi-turn critical engagement strategies in Phase~1.
 
@@ -372,7 +444,7 @@ Future work should include: (a) execution of the proposed experiment and analysi
 
 \section{Conclusion}\label{sec:conclusion}
 
-This paper presents the design of a controlled within-subjects experiment to investigate the impact of prompt quality on generative AI response efficacy across two competing platforms---ChatGPT (GPT-4o) and Claude Sonnet---in the context of IT students performing academic learning tasks. The study makes three primary contributions.
+This paper presents the design of a controlled within-subjects experiment to investigate the impact of prompt quality on generative AI response efficacy across two competing platforms---GPT-4o-mini and GLM-5.1---in the context of IT students performing academic learning tasks. The study makes three primary contributions.
 
 First, to the authors' knowledge, it proposes one of the earliest cross-platform controlled experimental designs for studying prompt--response dynamics in a Southeast Asian educational context, addressing the geographic and methodological gaps in the existing literature. The within-subjects design with Latin Square counterbalancing and fixed API parameters ensures rigorous control over confounding variables.
 
@@ -389,32 +461,14 @@ We anticipate that the empirical results will confirm that prompt quality signif
 \textbf{Ethics Approval:} Protocol will be submitted to the IRB of FPT University (HCMC) prior to Phase~1; no human-subjects data is collected before approval, and the reference will be reported in the revised submission. All participants provide written informed consent; data is de-identified at capture.
 \textbf{Data and Code Availability:} Code skeleton (Python and R with synthetic-data exemplars) is released at the project repository (anonymised for review). The pre-registration record will be deposited on OSF and the DOI added to the camera-ready version. Phase~2 empirical data will be released under CC~BY~4.0 on acceptance of the follow-up paper.
 \textbf{Author Contributions (CRediT):} Nguyen--Conceptualization, Methodology, Writing~(Original Draft), Project Administration; Ho-Van--Methodology, Statistical Design, Writing~(Review~\& Editing), Supervision; Lam--Software, Validation, Data Curation, Writing~(Review~\& Editing).
-\textbf{Generative AI Usage:} GPT-4o and Claude Sonnet are the \emph{object of study} and are used solely as controlled experimental platforms; no generative AI was used to draft or substantively revise the manuscript beyond minor grammar suggestions, per the 2023 COPE/ICMJE/Springer AI-authorship guidance.
+\textbf{Generative AI Usage:} GPT-4o-mini and GLM-5.1 are the \emph{object of study} and are used solely as controlled experimental platforms; no generative AI was used to draft or substantively revise the manuscript beyond minor grammar suggestions, per the 2023 COPE/ICMJE/Springer AI-authorship guidance.
 \textbf{ORCID:} All three authors' ORCID iDs will be finalised in the camera-ready version.
-
-\InputIfFileExists{pilot-macros}{}{%
-  \newcommand{\PilotN}{TBD}%
-  \newcommand{\PilotSessions}{TBD}%
-  \newcommand{\PilotFriedmanChi}{TBD}%
-  \newcommand{\PilotFriedmanDF}{TBD}%
-  \newcommand{\PilotFriedmanP}{TBD}%
-  \newcommand{\PilotKendallW}{TBD}%
-  \newcommand{\PilotAlgoBasic}{TBD}%
-  \newcommand{\PilotAlgoInt}{TBD}%
-  \newcommand{\PilotAlgoAdv}{TBD}%
-  \newcommand{\PilotCxBasic}{TBD}%
-  \newcommand{\PilotCxInt}{TBD}%
-  \newcommand{\PilotCxAdv}{TBD}%
-  \newcommand{\PilotPsBasic}{TBD}%
-  \newcommand{\PilotPsInt}{TBD}%
-  \newcommand{\PilotPsAdv}{TBD}%
-}
-\input{appendix-B}
-\input{appendix-C}
 
 {\footnotesize
 \bibliographystyle{splncs04}
 \bibliography{references}
 }
+
+\input{appendix}
 
 \end{document}

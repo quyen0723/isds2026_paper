@@ -1,15 +1,23 @@
 {
-  "started_utc": "2026-04-21T07:55:51.312727Z",
-  "ended_utc": "2026-04-21T08:06:18.268987Z",
+  "started_utc": "2026-04-21T14:59:00Z",
+  "ended_utc": "2026-04-21T23:55:00Z",
   "n_problems": 10,
+  "n_platforms": 2,
   "n_task_types": 3,
   "n_levels": 3,
-  "n_sessions": 90,
-  "mean_composite_by_level": {
-    "advanced": 24.233333333333334,
-    "basic": 23.866666666666667,
-    "intermediate": 23.233333333333334
+  "n_sessions": 166,
+  "platforms_n": {
+    "glm-5.1": 76,
+    "gpt-4o-mini": 90
   },
-  "cache_hit_rate_gen": 0.2777777777777778,
-  "cache_hit_rate_judge": 0.0
+  "note": "GLM partial (76/90); 14 GLM calls dropped due to 180s timeout on complex prompts.",
+  "mean_composite_by_platform": {
+    "glm-5.1": 22.276315789473685,
+    "gpt-4o-mini": 23.766666666666666
+  },
+  "mean_composite_by_level": {
+    "advanced": 23.963636363636365,
+    "basic": 22.660714285714285,
+    "intermediate": 22.636363636363637
+  }
 }
